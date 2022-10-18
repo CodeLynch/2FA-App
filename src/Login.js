@@ -21,7 +21,7 @@ const Login = () =>{
                                         <Form.Text className="text-muted">
                                             Don't have an account? Register&nbsp;
                                         </Form.Text>
-                                        <a href="#">here</a>
+                                        <a href="/register">here</a>
                                         </div>
                                         <Button align="right" variant="primary" type="submit">
                                             Log-In
