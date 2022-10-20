@@ -21,7 +21,6 @@ db.connect((err) =>{
 })
 
 app.post("/register", (req,res) =>{
-
     const firstname = req.body.firstname
     const lastname = req.body.lastname
     const email = req.body.email
@@ -31,8 +30,34 @@ app.post("/register", (req,res) =>{
         "INSERT INTO users (firstname, lastname, email, username, password) VALUES (?,?,?,?,?)",
         [firstname, lastname, email, username, password],
         (err, result) =>{
-            console.log(err);
+            if(err != null){
+                console.log(err);
+            }else{
+                console.log("Post successful");
+                res.send({message: "You have successfully registered!"});
+            }
         }
     );
 })
+
+app.post("/login", (req,res)=>{
+    const username = req.body.username;
+    const pass = req.body.password
+    db.query(
+        "SELECT * FROM users WHERE username = ? AND password = ? ",
+        [username, pass],
+        (err, result) => {
+            if(err){
+                res.send({error: err});
+            }else{
+                if(result.length > 0){
+                    res.send(result);
+                }else{
+                    res.send({message: "Invalid username/password!"});
+                }
+            }
+        }
+    );
+})
+
 app.listen(5000, () => {console.log("Listening on Port 5000")})
