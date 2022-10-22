@@ -4,6 +4,7 @@ import Register from './Register';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {BrowserRouter as Router, Routes, Route} from 'react-router-dom';
 import ForgotPass from './ForgotPass';
+import Profile from './Profile';
 
 function App() {
   return(
@@ -12,6 +13,7 @@ function App() {
          <Route path="/" element={<div className='App-content'><Login /></div>} />
          <Route path="/register" element={<div className='App-content'><Register /></div>} />
          <Route path="/forgotpassword" element={<div className='App-content'><ForgotPass /></div>} />
+         <Route path="/profile" element={<div className='App-content'><Profile /></div>} />
       </Routes>
     </Router>
   );

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
-import { Navigate} from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 import Axios from 'axios';
 
 
@@ -16,8 +16,9 @@ const Register = () =>{
 
 
         const register = () =>{
-                if(firstnameReg !== "" && lastnameReg && "" && emailReg !== "" 
-                && usernameReg !== "" && passwordReg && "" ){
+                console.log(firstnameReg !== "" && lastnameReg !== "" && emailReg !== "" && usernameReg !== "" && passwordReg !== "" )
+                if(firstnameReg !== "" && lastnameReg !== "" && emailReg !== "" 
+                && usernameReg !== "" && passwordReg !== "" ){
                         Axios.post('http://localhost:5000/register', {
                         firstname: firstnameReg,
                         lastname: lastnameReg,
@@ -25,8 +26,10 @@ const Register = () =>{
                         username: usernameReg,
                         password: passwordReg,
                         }).then((response) =>{
+                                console.log("response? ",response.status);
                                 if(response.status === 200){
                                         setIsRegistered(true);
+                                        console.log("is registered? ",isRegistered);
                                 }
                         }).catch(e => {
                                 console.log(e);
@@ -47,7 +50,7 @@ const Register = () =>{
               };
 
               if(isRegistered){
-                return <Navigate to="/" />
+                return <Navigate to={"/"} replace="true" state={{ justRegistered:"true" }} />
               }          
               return (
                         <div className="w-100">

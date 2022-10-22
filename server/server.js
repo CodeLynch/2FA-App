@@ -33,6 +33,7 @@ app.post("/register", (req,res) =>{
             if(err != null){
                 console.log(err);
             }else{
+                res.send("Registration Successful")
                 console.log("Post successful");
             }
         }
