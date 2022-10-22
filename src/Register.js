@@ -13,9 +13,11 @@ const Register = () =>{
         const [passwordReg, setPasswordReg] = useState('')
         const [isRegistered, setIsRegistered] = useState(false)
 
+
+
         const register = () =>{
-                if(firstnameReg !== "" || lastnameReg !== "" || emailReg !== "" 
-                || usernameReg !== "" || passwordReg !== "" ){
+                if(firstnameReg !== "" && lastnameReg && "" && emailReg !== "" 
+                && usernameReg !== "" && passwordReg && "" ){
                         Axios.post('http://localhost:5000/register', {
                         firstname: firstnameReg,
                         lastname: lastnameReg,

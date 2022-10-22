@@ -34,7 +34,6 @@ app.post("/register", (req,res) =>{
                 console.log(err);
             }else{
                 console.log("Post successful");
-                res.send({message: "You have successfully registered!"});
             }
         }
     );
@@ -53,7 +52,7 @@ app.post("/login", (req,res)=>{
                 if(result.length > 0){
                     res.send(result);
                 }else{
-                    res.send({message: "Invalid username/password!"});
+                    res.send({ alertClass: "danger", message: "Invalid username/password!"});
                 }
             }
         }
