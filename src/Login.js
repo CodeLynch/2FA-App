@@ -9,9 +9,11 @@ const Login = () =>{
     const [usernameLog, setUsernameLog] = useState('')
     const [passwordLog, setPasswordLog] = useState('')
     const [loginMsg, setLogInMsg] = useState('')
+    const [ValidLog, setValidLog] = useState(false)
+    let navigate = useNavigate()
 
     const login = () =>{
-        if(usernameLog != "" || passwordLog != ""){
+        if(usernameLog !== "" || passwordLog !== ""){
             Axios.post('http://localhost:5000/login', {
             username: usernameLog,
             password: passwordLog,
