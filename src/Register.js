@@ -29,7 +29,6 @@ const Register = () =>{
                                 console.log("response? ",response.status);
                                 if(response.status === 200){
                                         setIsRegistered(true);
-                                        console.log("is registered? ",isRegistered);
                                 }
                         }).catch(e => {
                                 console.log(e);

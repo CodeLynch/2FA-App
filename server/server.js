@@ -2,6 +2,10 @@ const express = require('express')
 const mysql = require('mysql')
 const cors = require('cors')
 const app = express()
+const session = require('express-session');
+const { response, query } = require('express');
+const e = require('express');
+
 
 app.use(cors())
 app.use(express.json());
@@ -20,41 +24,42 @@ db.connect((err) =>{
     console.log("MySql Connected")
 })
 
-app.post("/register", (req,res) =>{
-    const firstname = req.body.firstname
-    const lastname = req.body.lastname
-    const email = req.body.email
-    const username = req.body.username
-    const password = req.body.password
-    db.query(
-        "INSERT INTO users (firstname, lastname, email, username, password) VALUES (?,?,?,?,?)",
-        [firstname, lastname, email, username, password],
-        (err, result) =>{
-            if(err != null){
-                console.log(err);
-            }else{
-                res.send("Registration Successful")
-                console.log("Post successful");
+app.post("/register", async (req,res) =>{
+        const firstname = req.body.firstname
+        const lastname = req.body.lastname
+        const email = req.body.email
+        const username = req.body.username
+        const password = req.body.password
+        db.query(
+            "INSERT INTO users (firstname, lastname, email, username, password) VALUES (?,?,?,?,?)",
+            [firstname, lastname, email, username, password],
+            (err, result) =>{
+                if(err != null){
+                    console.log(err);
+                }else{
+                    res.send("Registration Successful")
+                    console.log("Post successful");
+                }
             }
-        }
-    );
+        );
 })
 
-app.post("/login", (req,res)=>{
+app.post("/users", (req,res)=>{
     const username = req.body.username;
     const pass = req.body.password
-    db.query(
-        "SELECT * FROM users WHERE username = ? AND password = ? ",
+     db.query(
+         "SELECT * FROM users WHERE username = ? AND password = ? ",
         [username, pass],
         (err, result) => {
             if(err){
+
                 res.send({error: err});
             }else{
                 if(result.length > 0){
-                    res.send(result);
-                }else{
-                    res.send({ alertClass: "danger", message: "Invalid username/password!"});
-                }
+                res.send(result);
+                 }else{
+                     res.send({ alertClass: "danger", message: "Invalid username/password!"});
+                 }
             }
         }
     );

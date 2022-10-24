@@ -8,13 +8,15 @@ import Axios from 'axios';
 const Login = (props) =>{
     const [usernameLog, setUsernameLog] = useState('')
     const [passwordLog, setPasswordLog] = useState('')
+    const [firstname, setFirstname] = useState('')
+    const [lastname, setLastname] = useState('')
     const [justRegistered, setJustRegistered] = useState(props.newRegistree)
     const [invalidLogIn, setInvalidLogIn] = useState('')
     const [validLogIn, setValidLogIn] = useState(false)
 
     const login = () =>{
         if(usernameLog !== "" && passwordLog !== ""){
-            Axios.post('http://localhost:5000/login', {
+            Axios.post('http://localhost:5000/users', {
             username: usernameLog,
             password: passwordLog,
             }).then((response) =>{
@@ -22,6 +24,8 @@ const Login = (props) =>{
             if(response.data.message){
                 setInvalidLogIn(true)
             }else{
+                setFirstname(response.data[0].firstname)
+                setLastname(response.data[0].lastname)
                 setValidLogIn(true)
             }
             }).catch(e => {
@@ -51,7 +55,8 @@ const Login = (props) =>{
     }
     
     if(validLogIn){
-            return <Navigate to={"/Profile"}/>
+             
+             return <Navigate to={"/Profile"} state={{fname:firstname, lname:lastname}}/>
     }else{
             return (
                 <div className="w-100">
