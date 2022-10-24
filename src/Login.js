@@ -2,15 +2,14 @@ import React, { useState } from "react";
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Alert from 'react-bootstrap/Alert';
-import { Navigate } from 'react-router-dom';
+import { Navigate, Link } from 'react-router-dom';
 import Axios from 'axios';
 
-const Login = (props) =>{
+const Login = () =>{
     const [usernameLog, setUsernameLog] = useState('')
     const [passwordLog, setPasswordLog] = useState('')
     const [firstname, setFirstname] = useState('')
     const [lastname, setLastname] = useState('')
-    const [justRegistered, setJustRegistered] = useState(props.newRegistree)
     const [invalidLogIn, setInvalidLogIn] = useState('')
     const [validLogIn, setValidLogIn] = useState(false)
 
@@ -47,15 +46,11 @@ const Login = (props) =>{
             };
 
     let alertTag ="";
-    if(justRegistered){
-        console.log("just registered");
-        alertTag = <Alert key="success" variant="success">You have Successfully registered!</Alert>
-    }else if(invalidLogIn){
+    if(invalidLogIn){
         alertTag = <Alert key="danger" variant="danger">Invalid Username/Password!</Alert>        
     }
     
-    if(validLogIn){
-             
+    if(validLogIn){             
              return <Navigate to={"/Profile"} state={{fname:firstname, lname:lastname}}/>
     }else{
             return (
@@ -65,7 +60,6 @@ const Login = (props) =>{
                             <h1 className="f1">Log-In</h1>
                                     {alertTag}
                                     <Form noValidate validated={validated} onSubmit={ handleSubmit }>
-                                        {/* <Form.Label className="text-danger">{loginMsg}</Form.Label> */}
                                         <Form.Group className="mb-3" controlId="formUsername" onChange={(e)=>{setUsernameLog(e.target.value);}}>
                                                 <Form.Control required type="text" placeholder="Username" />
                                                 <Form.Control.Feedback type="invalid">
@@ -84,7 +78,7 @@ const Login = (props) =>{
                                                 <Form.Text className="text-muted">
                                                     Don't have an account? Register&nbsp;
                                                 </Form.Text>
-                                                <a href="/register">here</a>
+                                                <Link to="/register" state={{ registered:false }}>here</Link>
                                                 </div>
                                                 <Button align="right" variant="primary" type="submit" onClick={ login }>
                                                     Log-In

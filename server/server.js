@@ -3,7 +3,6 @@ const mysql = require('mysql')
 const cors = require('cors')
 const app = express()
 const session = require('express-session');
-const { response, query } = require('express');
 const e = require('express');
 
 
@@ -37,7 +36,6 @@ app.post("/register", async (req,res) =>{
                 if(err != null){
                     console.log(err);
                 }else{
-                    res.send("Registration Successful")
                     console.log("Post successful");
                 }
             }
@@ -56,9 +54,14 @@ app.post("/users", (req,res)=>{
                 res.send({error: err});
             }else{
                 if(result.length > 0){
-                res.send(result);
+                    res.send(result);
+                    req.session.user = req.body.user;
+                    req.session.save(function (err) {
+                        if (err)
+                        console.log(err);
+                      })
                  }else{
-                     res.send({ alertClass: "danger", message: "Invalid username/password!"});
+                    res.send({message:"Invalid username/password!"});
                  }
             }
         }

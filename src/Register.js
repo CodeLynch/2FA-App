@@ -1,18 +1,19 @@
 import React, { useState } from "react";
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
-import { Navigate } from 'react-router-dom';
+import { Navigate, useLocation } from 'react-router-dom';
 import Axios from 'axios';
 
 
 const Register = () =>{
+        const location = useLocation()
         const [firstnameReg, setFirstnameReg] = useState('')
         const [lastnameReg, setLastnameReg] = useState('')
         const [emailReg, setEmailReg] = useState('')
         const [usernameReg, setUsernameReg] = useState('')
         const [passwordReg, setPasswordReg] = useState('')
         const [isRegistered, setIsRegistered] = useState(false)
-
+               
 
 
         const register = () =>{
@@ -49,7 +50,7 @@ const Register = () =>{
               };
 
               if(isRegistered){
-                return <Navigate to={"/"} replace="true" state={{ justRegistered:"true" }} />
+                return <Navigate to={"/"} state={{ justRegistered:"true" }} />
               }          
               return (
                         <div className="w-100">
