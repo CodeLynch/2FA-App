@@ -10,14 +10,20 @@ import OTPPage from './OTPPage';
 import ProfileNav from './ProfileNav';
 
 function App() {
-
+  const getSessionData = () =>{
+    return sessionStorage.getItem("username");
+   };
+   let mainPage =<Route path="/" element={<div className='App-content'><Login /></div>} />;
+   if(getSessionData() != null){
+       mainPage =<Route path="/" element={<div><ProfileNav /><Profile /></div>} />;
+   }
   return(
     <Router>
       <Routes>
-         <Route path="/" element={<div className='App-content'><Login /></div>} />
+         {mainPage}
          <Route path="/register" element={<div className='App-content'><Register /></div>} />
          <Route path="/forgotpassword" element={<div className='App-content'><ForgotPass /></div>} />
-         <Route path="/profile" element={<div><ProfileNav /><Profile /></div>} />
+         {/* <Route path="/profile" element={<div><ProfileNav /><Profile /></div>} /> */}
          <Route path="/resetpassword" element={<div className='App-content'><ResetPass /></div>} />
          <Route path="/otp" element={<div className='App-content'><OTPPage /></div>} />
       </Routes>

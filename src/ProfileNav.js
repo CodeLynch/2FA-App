@@ -1,40 +1,37 @@
-import React, { useState } from "react";
+//import React, { useState } from "react";
 import Nav from 'react-bootstrap/Nav';
-//import { useNavigate } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
+import Button from 'react-bootstrap/Button';
+import { useState } from 'react';
 //import Axios from 'axios';
 
 const ProfileNav = () =>{
- 
-    // const login = () =>{
-    //     if(usernameLog !== "" && passwordLog !== ""){
-    //         Axios.post('http://localhost:5000/login', {
-    //         username: usernameLog,
-    //         password: passwordLog,
-    //         }).then((response) =>{
-    //         console.log(response);
-    //         if(response.data.message){
-    //             setInvalidLogIn(true)
-    //         }
-    //         }).catch(e => {
-    //                 console.log(e);
-    //         });
-    //     }
-    // };
+    const [loggedOut, setLoggedOut] = useState(false)
+    const logout = () =>{
+            sessionStorage.clear();
+            setLoggedOut(true);
+    };
 
-    return (
-        <div className="w-100 h-100 shadow-sm">
-            <div className="container">
-                <Nav className="d-flex flex-row-reverse py-2"
-                    activeKey="/home"
-                    onSelect={(selectedKey) => alert(`selected ${selectedKey}`)}
-                >
-                    <Nav.Item>
-                        <Nav.Link eventKey="logout">Logout</Nav.Link>
-                    </Nav.Item>
-                </Nav>
+    if(loggedOut){
+        return <Navigate to={"/"}/>
+    }else{
+        return (
+            <div className="w-100 h-100 shadow-sm">
+                <div className="container">
+                    <Nav className="d-flex flex-row-reverse py-2" bg="primary" variant="dark">
+                        <Nav.Item>
+                            <Button className="mx-0 p-0" variant="link text-decoration-none" type="submit" onClick={ logout }>
+                                Logout
+                            </Button>
+                        </Nav.Item>
+                    </Nav>
+                </div>
             </div>
-        </div>
-    )
-}
+        )
+    }
+    }
+
+
+    
 
 export default ProfileNav

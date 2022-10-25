@@ -17,7 +17,6 @@ const Register = () =>{
 
 
         const register = () =>{
-                console.log(firstnameReg !== "" && lastnameReg !== "" && emailReg !== "" && usernameReg !== "" && passwordReg !== "" )
                 if(firstnameReg !== "" && lastnameReg !== "" && emailReg !== "" 
                 && usernameReg !== "" && passwordReg !== "" ){
                         Axios.post('http://localhost:5000/register', {
@@ -27,10 +26,15 @@ const Register = () =>{
                         username: usernameReg,
                         password: passwordReg,
                         }).then((response) =>{
-                                console.log("response? ",response.status);
-                                if(response.status === 200){
+                                if(response.data.message){
+                                        alert(response.data.message)
+                                        console.log("nope it's this one here!");
+                                }else{
+                                        alert("Successfully Registered!")
                                         setIsRegistered(true);
+                                        console.log("Just this one here!");
                                 }
+                                        
                         }).catch(e => {
                                 console.log(e);
                         });

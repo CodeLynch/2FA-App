@@ -12,6 +12,9 @@ const Login = () =>{
     const [lastname, setLastname] = useState('')
     const [invalidLogIn, setInvalidLogIn] = useState('')
     const [validLogIn, setValidLogIn] = useState(false)
+    const [isSaved, setIsSaved] = useState(false)
+    const [loginError, setLoginError] = useState('')
+
 
     const login = () =>{
         if(usernameLog !== "" && passwordLog !== ""){
@@ -21,17 +24,31 @@ const Login = () =>{
             }).then((response) =>{
             console.log(response);
             if(response.data.message){
+                setLoginError(response.data.message)
                 setInvalidLogIn(true)
             }else{
                 setFirstname(response.data[0].firstname)
                 setLastname(response.data[0].lastname)
-                setValidLogIn(true)
+                saveData()
+                validateLogIn()
             }
             }).catch(e => {
                     console.log(e);
             });
         }
     };
+
+    const saveData = () =>{
+        sessionStorage.setItem("username", usernameLog);
+        sessionStorage.setItem("firstname", firstname);
+        sessionStorage.setItem("lastname", lastname);
+        setIsSaved(true);
+    };
+
+    const validateLogIn = () =>{
+        setValidLogIn(true);
+    };
+
 
     const [validated, setValidated] = useState(false);
 
@@ -47,50 +64,47 @@ const Login = () =>{
 
     let alertTag ="";
     if(invalidLogIn){
-        alertTag = <Alert key="danger" variant="danger">Invalid Username/Password!</Alert>        
+        alertTag = <Alert key="danger" variant="danger">{loginError}</Alert>        
     }
     
-    if(validLogIn){             
-             return <Navigate to={"/Profile"} state={{fname:firstname, lname:lastname}}/>
-    }else{
-            return (
-                <div className="w-100">
-                    <div className="container" align="center">
-                    <div className="col-lg-8 px-5 py-5 row justify-content-center text-start">
-                            <h1 className="f1">Log-In</h1>
-                                    {alertTag}
-                                    <Form noValidate validated={validated} onSubmit={ handleSubmit }>
-                                        <Form.Group className="mb-3" controlId="formUsername" onChange={(e)=>{setUsernameLog(e.target.value);}}>
-                                                <Form.Control required type="text" placeholder="Username" />
-                                                <Form.Control.Feedback type="invalid">
-                                                    Please enter a username.
-                                                </Form.Control.Feedback>
-                                        </Form.Group>
+    return (
+            <div className="w-100">
+                {validLogIn && isSaved && (<Navigate to="/" replace={true} />)}
+                <div className="container" align="center">
+                <div className="col-lg-8 px-5 py-5 row justify-content-center text-start">
+                        <h1 className="f1">Log-In</h1>
+                                {alertTag}
+                                <Form noValidate validated={validated} onSubmit={ handleSubmit }>
+                                    <Form.Group className="mb-3" controlId="formUsername" onChange={(e)=>{setUsernameLog(e.target.value);}}>
+                                            <Form.Control required type="text" placeholder="Username" />
+                                            <Form.Control.Feedback type="invalid">
+                                                Please enter a username.
+                                            </Form.Control.Feedback>
+                                    </Form.Group>
 
-                                        <Form.Group className="mb-3" controlId="formPassword" onChange={(e)=>{setPasswordLog(e.target.value);}}>
-                                                <Form.Control required type="password" placeholder="Password" />
-                                                <Form.Control.Feedback type="invalid">
-                                                    Please enter your password.
-                                                </Form.Control.Feedback>
-                                        </Form.Group>
-                                            <div className="d-flex justify-content-between">
-                                                <div>
-                                                <Form.Text className="text-muted">
-                                                    Don't have an account? Register&nbsp;
-                                                </Form.Text>
-                                                <Link to="/register" state={{ registered:false }}>here</Link>
-                                                </div>
-                                                <Button align="right" variant="primary" type="submit" onClick={ login }>
-                                                    Log-In
-                                                </Button>
+                                    <Form.Group className="mb-3" controlId="formPassword" onChange={(e)=>{setPasswordLog(e.target.value);}}>
+                                            <Form.Control required type="password" placeholder="Password" />
+                                            <Form.Control.Feedback type="invalid">
+                                                Please enter your password.
+                                            </Form.Control.Feedback>
+                                    </Form.Group>
+                                        <div className="d-flex justify-content-between">
+                                            <div>
+                                            <Form.Text className="text-muted">
+                                                Don't have an account? Register&nbsp;
+                                            </Form.Text>
+                                            <Link to="/register" state={{ registered:false }}>here</Link>
                                             </div>
-                                                <a href="forgotpassword">Forgot Password?</a>
-                                    </Form>
-                            </div>
-                    </div>
+                                            <Button align="right" variant="primary" type="submit" onClick={ login }>
+                                                Log-In
+                                            </Button>
+                                        </div>
+                                            <a href="forgotpassword">Forgot Password?</a>
+                                </Form>
+                        </div>
                 </div>
-            )
-    }
+            </div>
+        )
 }
 
 export default Login
