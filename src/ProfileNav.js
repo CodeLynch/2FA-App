@@ -6,7 +6,6 @@ import Axios from 'axios';
 const ProfileNav = () =>{
     const logout = () =>{
             Axios.get("http://localhost:5000/logout").then((response)=>{
-                alert(response.data.message)
                 window.location.reload();
             })        
     };

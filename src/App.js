@@ -12,14 +12,17 @@ import  Axios  from 'axios';
 import { useEffect, useState } from 'react';
 
 function App() {
+    const [isLoading, setLoading] = useState(true);
     const [loggedIn, setLoggedIn] = useState(false)
     const [fname, setFName] = useState('')
     const [lname, setLName] = useState('')
-
+    
     Axios.defaults.withCredentials = true;
     useEffect(()=>{
         Axios.get("http://localhost:5000/home").then((response)=>{
+          setLoading(false);
           if(response.data.loggedIn === true){
+            console.log("RESPONDED")
             setLoggedIn(true);
             setFName(response.data.user[0].firstname);
             setLName(response.data.user[0].lastname);
@@ -28,12 +31,16 @@ function App() {
           }
         })
     }, [fname, lname])
-  let mainPage =<Route path="/" element={ <div className='App-content'><h1>LOADING...</h1></div>}/>
+  
+  let mainPage=''
+  if(isLoading){
+    mainPage =<Route path="/" element={ <div className='App-content'><h1>LOADING...</h1></div>}/>
+  }else{  
   if(loggedIn){
     mainPage =<Route path="/" element={<div><ProfileNav /><Profile first={fname} last={lname}/></div>}/>
   }else{
     mainPage =<Route path="/" element={<div className='App-content'><Login /></div>}/>
-  }
+  }}
   return(
     <Router>
       <Routes>
