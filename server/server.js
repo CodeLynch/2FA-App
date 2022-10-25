@@ -18,7 +18,7 @@ app.use(session({
     resave: false,
     saveUninitialized: false,
     cookie: {
-        expires: 60 * 60 * 1,
+        sameSite: false
     },
 }
 ))
@@ -30,6 +30,7 @@ app.use(cors({
 }))
 app.use(cookieParser())
 app.use(bodyParser.urlencoded( {extended:true }));
+
 
 const db = mysql.createConnection({
     host: 'localhost',
@@ -46,12 +47,16 @@ db.connect((err) =>{
 })
 
 app.get("/home", (req, res)=>{
-    console.log(req.session.user)
     if(req.session.user){
         res.send({loggedIn: true, user: req.session.user})
     }else{
         res.send({loggedIn: false})
     }
+})
+
+app.get("/logout", (req, res)=>{
+    req.session.destroy();
+    res.send({message:"Logout successful"})
 })
 app.post("/register", async (req,res) =>{
         const firstname = req.body.firstname
@@ -98,7 +103,6 @@ app.post("/users", (req,res)=>{
                         }
                         if(response){
                             req.session.user = result
-                            console.log("Saving but...")
                             res.send(result)
                         }else{
                             res.send({message:"Wrong password!"});

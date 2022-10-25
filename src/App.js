@@ -19,23 +19,21 @@ function App() {
     Axios.defaults.withCredentials = true;
     useEffect(()=>{
         Axios.get("http://localhost:5000/home").then((response)=>{
-          console.log(response);
           if(response.data.loggedIn === true){
-            console.log("this is happening");
             setLoggedIn(true);
             setFName(response.data.user[0].firstname);
             setLName(response.data.user[0].lastname);
-            console.log("You are " + {fname} + " " + {lname})
           }else{
-            console.log("I hear nothing");
+            setLoggedIn(false);
           }
         })
     }, [fname, lname])
-   let mainPage =<Route path="/" element={<div className='App-content'><Login /></div>} />;
-   if(loggedIn){
-       mainPage =<Route path="/" element={<div><ProfileNav /><Profile first={fname} last={lname} /></div>} />;
-   }
-
+  let mainPage =<Route path="/" element={ <div className='App-content'><h1>LOADING...</h1></div>}/>
+  if(loggedIn){
+    mainPage =<Route path="/" element={<div><ProfileNav /><Profile first={fname} last={lname}/></div>}/>
+  }else{
+    mainPage =<Route path="/" element={<div className='App-content'><Login /></div>}/>
+  }
   return(
     <Router>
       <Routes>

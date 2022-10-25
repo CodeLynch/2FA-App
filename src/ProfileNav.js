@@ -1,19 +1,18 @@
 //import React, { useState } from "react";
 import Nav from 'react-bootstrap/Nav';
-import { Navigate } from 'react-router-dom';
 import Button from 'react-bootstrap/Button';
-import { useState } from 'react';
-//import Axios from 'axios';
+import Axios from 'axios';
 
 const ProfileNav = () =>{
-    const [loggedOut, setLoggedOut] = useState(false)
     const logout = () =>{
-            setLoggedOut(true);
+            Axios.get("http://localhost:5000/logout").then((response)=>{
+                alert(response.data.message)
+                window.location.reload();
+            })        
     };
 
-    if(loggedOut){
-        return <Navigate to={"/"}/>
-    }else{
+
+    
         return (
             <div className="w-100 h-100 shadow-sm">
                 <div className="container">
@@ -27,7 +26,6 @@ const ProfileNav = () =>{
                 </div>
             </div>
         )
-    }
     }
 
 
