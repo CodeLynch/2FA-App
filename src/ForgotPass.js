@@ -6,7 +6,7 @@ const ForgotPass = () =>{
     return (
         <div className="w-100">
             <div className="container" align="center">
-            <div className="col-lg-8 px-5 py-5 row justify-content-center text-start" maxWidth="sm">
+            <div className="col-lg-8 px-5 py-5 row justify-content-center text-start">
                     <h1 className="f1">Forgot Password?</h1>
                             <Form>
                                 <Form.Label>Enter the email of your account to reset your password</Form.Label>

@@ -2,20 +2,17 @@ import React, { useState } from "react";
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Alert from 'react-bootstrap/Alert';
-import { Navigate, Link } from 'react-router-dom';
+import { /*Navigate,*/ Link } from 'react-router-dom';
 import Axios from 'axios';
 
 const Login = () =>{
     const [usernameLog, setUsernameLog] = useState('')
     const [passwordLog, setPasswordLog] = useState('')
-    const [firstname, setFirstname] = useState('')
-    const [lastname, setLastname] = useState('')
     const [invalidLogIn, setInvalidLogIn] = useState('')
     const [validLogIn, setValidLogIn] = useState(false)
-    const [isSaved, setIsSaved] = useState(false)
     const [loginError, setLoginError] = useState('')
 
-
+    Axios.defaults.withCredentials = true;
     const login = () =>{
         if(usernameLog !== "" && passwordLog !== ""){
             Axios.post('http://localhost:5000/users', {
@@ -27,9 +24,6 @@ const Login = () =>{
                 setLoginError(response.data.message)
                 setInvalidLogIn(true)
             }else{
-                setFirstname(response.data[0].firstname)
-                setLastname(response.data[0].lastname)
-                saveData()
                 validateLogIn()
             }
             }).catch(e => {
@@ -38,12 +32,6 @@ const Login = () =>{
         }
     };
 
-    const saveData = () =>{
-        sessionStorage.setItem("username", usernameLog);
-        sessionStorage.setItem("firstname", firstname);
-        sessionStorage.setItem("lastname", lastname);
-        setIsSaved(true);
-    };
 
     const validateLogIn = () =>{
         setValidLogIn(true);
@@ -52,8 +40,8 @@ const Login = () =>{
 
     const [validated, setValidated] = useState(false);
 
-    const handleSubmit = event => {
-                event.preventDefault();   
+    const handleSubmit = event => {  
+                event.preventDefault();
                 const form = event.currentTarget;
                 if (form.checkValidity() === false) {
                     event.preventDefault();
@@ -66,10 +54,11 @@ const Login = () =>{
     if(invalidLogIn){
         alertTag = <Alert key="danger" variant="danger">{loginError}</Alert>        
     }
-    
+    if(validLogIn){
+        window.location.reload();
+    }
     return (
             <div className="w-100">
-                {validLogIn && isSaved && (<Navigate to="/" replace={true} />)}
                 <div className="container" align="center">
                 <div className="col-lg-8 px-5 py-5 row justify-content-center text-start">
                         <h1 className="f1">Log-In</h1>

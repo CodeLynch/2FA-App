@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
-import { Navigate, useLocation } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 import Axios from 'axios';
 
 
 const Register = () =>{
-        const location = useLocation()
+        
         const [firstnameReg, setFirstnameReg] = useState('')
         const [lastnameReg, setLastnameReg] = useState('')
         const [emailReg, setEmailReg] = useState('')
@@ -15,7 +15,7 @@ const Register = () =>{
         const [isRegistered, setIsRegistered] = useState(false)
                
 
-
+        Axios.defaults.withCredentials = true;
         const register = () =>{
                 if(firstnameReg !== "" && lastnameReg !== "" && emailReg !== "" 
                 && usernameReg !== "" && passwordReg !== "" ){

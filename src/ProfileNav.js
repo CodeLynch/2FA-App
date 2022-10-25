@@ -8,7 +8,6 @@ import { useState } from 'react';
 const ProfileNav = () =>{
     const [loggedOut, setLoggedOut] = useState(false)
     const logout = () =>{
-            sessionStorage.clear();
             setLoggedOut(true);
     };
 
