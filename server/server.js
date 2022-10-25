@@ -1,17 +1,35 @@
 const express = require('express')
 const mysql = require('mysql')
 const cors = require('cors')
-const app = express()
+const proxy = require('express-proxy')
+
 const session = require('express-session');
-const e = require('express');
+const bodyParser = require('body-parser')
+const cookieParser = require('cookie-parser')
+
 const bcrypt = require('bcrypt');
-const { response } = require('express');
 const saltRounds = 10
 
+const app = express()
 
-
-app.use(cors())
+app.use(session({
+    key: "userid",
+    secret: "a very secretive secret",
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+        expires: 60 * 60 * 1,
+    },
+}
+))
 app.use(express.json());
+app.use(cors({
+    origin: ("http://localhost:3000"),
+    methods: ("GET", "POST", "PUT"),
+    credentials: true
+}))
+app.use(cookieParser())
+app.use(bodyParser.urlencoded( {extended:true }));
 
 const db = mysql.createConnection({
     host: 'localhost',
@@ -27,6 +45,14 @@ db.connect((err) =>{
     console.log("MySql Connected")
 })
 
+app.get("/home", (req, res)=>{
+    console.log(req.session.user)
+    if(req.session.user){
+        res.send({loggedIn: true, user: req.session.user})
+    }else{
+        res.send({loggedIn: false})
+    }
+})
 app.post("/register", async (req,res) =>{
         const firstname = req.body.firstname
         const lastname = req.body.lastname
@@ -67,7 +93,12 @@ app.post("/users", (req,res)=>{
             }else{
                 if(result.length > 0){
                     bcrypt.compare(pass, result[0].password, (err, response)=>{
+                        if(err){
+                            console.log(err)
+                        }
                         if(response){
+                            req.session.user = result
+                            console.log("Saving but...")
                             res.send(result)
                         }else{
                             res.send({message:"Wrong password!"});
@@ -80,5 +111,5 @@ app.post("/users", (req,res)=>{
         }
     );
 })
-
+app.use(proxy('http://127.0.0.1:3000'));
 app.listen(5000, () => {console.log("Listening on Port 5000")})
