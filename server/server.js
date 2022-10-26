@@ -105,15 +105,34 @@ app.post("/users", (req,res)=>{
                             req.session.user = result
                             res.send(result)
                         }else{
-                            res.send({message:"Wrong password!"});
+                            res.send({message:"Wrong password"});
                         }
                     })
                  }else{
-                    res.send({message:"User is not found!"});
+                    res.send({message:"Invalid Username"});
                  }
             }
         }
     );
 })
-app.use(proxy('http://127.0.0.1:3000'));
+
+app.get("/users/:username", (req,res)=>{
+    const username = req.params.username;
+     db.query(
+         "SELECT * FROM users WHERE username = ?",
+        username,
+        (err, result) => {
+            if(err){
+                res.send({error: err});
+            }else{
+                if(result.length > 0){
+                    res.send(result)
+                 }else{
+                    res.send({message:"Your username is not found"});
+                 }
+            }
+        }
+    );
+})
+
 app.listen(5000, () => {console.log("Listening on Port 5000")})

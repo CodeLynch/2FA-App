@@ -16,14 +16,15 @@ function App() {
     const [loggedIn, setLoggedIn] = useState(false)
     const [fname, setFName] = useState('')
     const [lname, setLName] = useState('')
+    const [username, setUsername] = useState('')
     
     Axios.defaults.withCredentials = true;
     useEffect(()=>{
         Axios.get("http://localhost:5000/home").then((response)=>{
           setLoading(false);
           if(response.data.loggedIn === true){
-            console.log("RESPONDED")
             setLoggedIn(true);
+            setUsername(response.data.user[0].username);
             setFName(response.data.user[0].firstname);
             setLName(response.data.user[0].lastname);
           }else{
@@ -37,7 +38,7 @@ function App() {
     mainPage =<Route path="/" element={ <div className='App-content'><h1>LOADING...</h1></div>}/>
   }else{  
   if(loggedIn){
-    mainPage =<Route path="/" element={<div><ProfileNav /><Profile first={fname} last={lname}/></div>}/>
+    mainPage =<Route path="/" element={<div><ProfileNav /><Profile first={fname} last={lname} username={username}/></div>}/>
   }else{
     mainPage =<Route path="/" element={<div className='App-content'><Login /></div>}/>
   }}

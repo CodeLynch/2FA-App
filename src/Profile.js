@@ -1,11 +1,35 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Form from 'react-bootstrap/Form';
 //import { useLocation } from "react-router-dom";
 //import { useNavigate } from 'react-router-dom';
-//import Axios from 'axios';
+import Axios from 'axios';
 
 const Profile = (props) =>{
-    
+    const [isLoading, setLoading] = useState(false)
+    const [using2FA, set2FA] = useState(false)
+
+    Axios.defaults.withCredentials = true;
+    useEffect(()=>{
+        Axios.get(`http://localhost:5000/users/${props.username}`).then((response)=>{
+          if(response.data[0].use2FA === 1){
+            set2FA(true)
+          }
+          setLoading(false);
+        })
+    }, [])
+
+    // const update2FA = () =>{
+    //     Axios.put(`http://localhost:5000/put2FA`).then((response)=>{
+    //         if(response.data[0].use2FA === 1){
+    //           set2FA(true)
+    //         }
+    //         setLoading(false);
+    //       })
+    // };
+
+    if(isLoading){
+        return (<h1>LOADING...</h1>)
+    }
     return (
         <div className="w-100">
             <div className="container" align="left">
@@ -18,6 +42,7 @@ const Profile = (props) =>{
                             type='checkbox'
                             id={`default-checkbox`}
                             label={`Activate 2FA`}
+                            defaultChecked={using2FA}
                         />
                         </div>
                         </Form>
