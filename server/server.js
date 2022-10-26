@@ -135,4 +135,44 @@ app.get("/users/:username", (req,res)=>{
     );
 })
 
+app.put("/on2FA/:username", (req,res)=>{
+    const username = req.params.username;
+     db.query(
+         "UPDATE users SET use2FA = 1 WHERE username = ?",
+        username,
+        (err, result) => {
+            if(err){
+                res.send({error: err});
+            }else{
+                res.send(result);
+                // if(result.length > 0){
+                //     res.send(result)
+                //  }else{
+                //     res.send({message:"Your username is not found"});
+                //  }
+            }
+        }
+    );
+})
+
+app.put("/off2FA/:username", (req,res)=>{
+    const username = req.params.username;
+     db.query(
+         "UPDATE users SET use2FA = 0 WHERE username = ?",
+        username,
+        (err, result) => {
+            if(err){
+                res.send({error: err});
+            }else{
+                res.send(result);
+                // if(result.length > 0){
+                //     res.send(result)
+                //  }else{
+                //     res.send({message:"Your username is not found"});
+                //  }
+            }
+        }
+    );
+})
+
 app.listen(5000, () => {console.log("Listening on Port 5000")})

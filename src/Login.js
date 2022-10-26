@@ -19,7 +19,6 @@ const Login = () =>{
             username: usernameLog,
             password: passwordLog,
             }).then((response) =>{
-            console.log(response);
             if(response.data.message){
                 setLoginError(response.data.message)
                 setInvalidLogIn(true)

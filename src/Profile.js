@@ -9,23 +9,33 @@ const Profile = (props) =>{
     const [using2FA, set2FA] = useState(false)
 
     Axios.defaults.withCredentials = true;
+
     useEffect(()=>{
+        console.log(using2FA);
         Axios.get(`http://localhost:5000/users/${props.username}`).then((response)=>{
           if(response.data[0].use2FA === 1){
-            set2FA(true)
+            set2FA(true);
+          }else{
+            set2FA(false);
           }
           setLoading(false);
         })
-    }, [])
+    }, [using2FA])
 
-    // const update2FA = () =>{
-    //     Axios.put(`http://localhost:5000/put2FA`).then((response)=>{
-    //         if(response.data[0].use2FA === 1){
-    //           set2FA(true)
-    //         }
-    //         setLoading(false);
-    //       })
-    // };
+    const update2FA = () =>{
+        if(using2FA){
+            Axios.put(`http://localhost:5000/off2FA/${props.username}`).then((response)=>{
+            set2FA(false);
+            console.log("Turned off 2FA");
+          })
+        }else{
+            Axios.put(`http://localhost:5000/on2FA/${props.username}`).then((response)=>{
+            set2FA(true);
+            console.log("Turned on 2FA");
+          })
+        }
+        
+    };
 
     if(isLoading){
         return (<h1>LOADING...</h1>)
@@ -42,7 +52,8 @@ const Profile = (props) =>{
                             type='checkbox'
                             id={`default-checkbox`}
                             label={`Activate 2FA`}
-                            defaultChecked={using2FA}
+                            checked={using2FA}
+                            onChange={update2FA}
                         />
                         </div>
                         </Form>
