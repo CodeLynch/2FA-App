@@ -81,7 +81,7 @@ const Login = () =>{
                                             <Form.Text className="text-muted">
                                                 Don't have an account? Register&nbsp;
                                             </Form.Text>
-                                            <Link to="/register" state={{ registered:false }}>here</Link>
+                                            <Link to="/register">here</Link>
                                             </div>
                                             <Button align="right" variant="primary" type="submit" onClick={ login }>
                                                 Log-In

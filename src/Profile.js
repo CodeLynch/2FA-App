@@ -26,12 +26,10 @@ const Profile = (props) =>{
         if(using2FA){
             Axios.put(`http://localhost:5000/off2FA/${props.username}`).then((response)=>{
             set2FA(false);
-            console.log("Turned off 2FA");
           })
         }else{
             Axios.put(`http://localhost:5000/on2FA/${props.username}`).then((response)=>{
             set2FA(true);
-            console.log("Turned on 2FA");
           })
         }
         

@@ -1,16 +1,24 @@
 const express = require('express')
 const mysql = require('mysql')
 const cors = require('cors')
-const proxy = require('express-proxy')
-
+//const proxy = require('express-proxy')
+const nodemailer = require('nodemailer')
 const session = require('express-session');
 const bodyParser = require('body-parser')
 const cookieParser = require('cookie-parser')
-
 const bcrypt = require('bcrypt');
 const saltRounds = 10
 
 const app = express()
+
+let mailTransporter = nodemailer.createTransport({
+    service: "gmail",
+    auth:{
+        user: "2faappproject@gmail.com",
+        pass: "caexgokvnagdaurj"
+    }
+})
+let content = "";
 
 app.use(session({
     key: "userid",
@@ -103,6 +111,7 @@ app.post("/users", (req,res)=>{
                         }
                         if(response){
                             req.session.user = result
+                            req.session.email = result[0].email
                             res.send(result)
                         }else{
                             res.send({message:"Wrong password"});
@@ -144,12 +153,11 @@ app.put("/on2FA/:username", (req,res)=>{
             if(err){
                 res.send({error: err});
             }else{
-                res.send(result);
-                // if(result.length > 0){
-                //     res.send(result)
-                //  }else{
-                //     res.send({message:"Your username is not found"});
-                //  }
+                if(result.length > 0){
+                    res.send(result)
+                 }else{
+                    res.send({message:"Your username is not found"});
+                 }
             }
         }
     );
@@ -164,15 +172,31 @@ app.put("/off2FA/:username", (req,res)=>{
             if(err){
                 res.send({error: err});
             }else{
-                res.send(result);
-                // if(result.length > 0){
-                //     res.send(result)
-                //  }else{
-                //     res.send({message:"Your username is not found"});
-                //  }
+                if(result.length > 0){
+                    res.send(result)
+                 }else{
+                    res.send({message:"Your username is not found"});
+                 }
             }
         }
     );
+})
+
+app.get("/otp", (req, res) =>{
+    const receiver = req.session.email
+    content = {
+        from: "2faappproject@gmail.com",
+        to: receiver,
+        subject: "OTP Code",
+        text: "Your OTP Code is: 1234, please enter it to verify that you signed it to your account"
+    }
+    mailTransporter.sendMail(content, (err) =>{
+        if(err){
+            console.log(err);
+        }else{
+            res.send("otp email sent!");
+        }
+    })
 })
 
 app.listen(5000, () => {console.log("Listening on Port 5000")})
