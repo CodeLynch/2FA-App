@@ -12,6 +12,7 @@ const Login = () =>{
     const [validLogIn, setValidLogIn] = useState(false)
     const [loginError, setLoginError] = useState('')
     const [validated, setValidated] = useState(false)
+    const [isLoading, setLoading] = useState(false)
     const nav = useNavigate();
 
     Axios.defaults.withCredentials = true;
@@ -26,6 +27,7 @@ const Login = () =>{
                 setInvalidLogIn(true)
             }else{
                 if(response.data[0].use2FA === 1){
+                    setLoading(true);
                     Axios.get("http://localhost:5000/otp").then((response)=>{
                         if(response.data.message){
                             nav('/otp', {state: {validLogIn:true, forgotPass:false} })
@@ -58,7 +60,10 @@ const Login = () =>{
     if(validLogIn){
         window.location.reload();
     }
-    return (
+    if(isLoading){
+        return <h1>LOADING...</h1>
+    }else{
+        return (
             <div className="w-100">
                 <div className="container" align="center">
                 <div className="col-lg-8 px-5 py-5 row justify-content-center text-start">
@@ -95,6 +100,8 @@ const Login = () =>{
                 </div>
             </div>
         )
+    }
+    
 }
 
 export default Login

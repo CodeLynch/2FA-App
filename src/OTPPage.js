@@ -15,7 +15,6 @@ const OTPPage = () =>{
         
 
         useEffect(()=>{
-
             if(location.state === null){
                 nav('/');
             }
