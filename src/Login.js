@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Alert from 'react-bootstrap/Alert';
-import { /*Navigate,*/ Link } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import Axios from 'axios';
 
 const Login = () =>{
@@ -11,6 +11,8 @@ const Login = () =>{
     const [invalidLogIn, setInvalidLogIn] = useState('')
     const [validLogIn, setValidLogIn] = useState(false)
     const [loginError, setLoginError] = useState('')
+    const [validated, setValidated] = useState(false)
+    const nav = useNavigate();
 
     Axios.defaults.withCredentials = true;
     const login = () =>{
@@ -23,22 +25,22 @@ const Login = () =>{
                 setLoginError(response.data.message)
                 setInvalidLogIn(true)
             }else{
-                validateLogIn()
+                if(response.data[0].use2FA === 1){
+                    Axios.get("http://localhost:5000/otp").then((response)=>{
+                        if(response.data.message){
+                            nav('/otp', {state: {validLogIn:true, forgotPass:false} })
+                        }                       
+                    })
+                }else{
+                    setValidLogIn(true);
+                }
             }
             }).catch(e => {
                     console.log(e);
             });
         }
     };
-
-
-    const validateLogIn = () =>{
-        setValidLogIn(true);
-    };
-
-
-    const [validated, setValidated] = useState(false);
-
+    
     const handleSubmit = event => {  
                 event.preventDefault();
                 const form = event.currentTarget;

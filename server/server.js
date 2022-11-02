@@ -6,7 +6,9 @@ const nodemailer = require('nodemailer')
 const session = require('express-session');
 const bodyParser = require('body-parser')
 const cookieParser = require('cookie-parser')
+const otpGenerator = require('otp-generator')
 const bcrypt = require('bcrypt');
+const { request } = require('express');
 const saltRounds = 10
 
 const app = express()
@@ -19,6 +21,7 @@ let mailTransporter = nodemailer.createTransport({
     }
 })
 let content = "";
+let expireAT = "";
 
 app.use(session({
     key: "userid",
@@ -55,7 +58,7 @@ db.connect((err) =>{
 })
 
 app.get("/home", (req, res)=>{
-    if(req.session.user){
+    if(req.session.verified){
         res.send({loggedIn: true, user: req.session.user})
     }else{
         res.send({loggedIn: false})
@@ -112,6 +115,9 @@ app.post("/users", (req,res)=>{
                         if(response){
                             req.session.user = result
                             req.session.email = result[0].email
+                            if(result[0].use2FA === 0){
+                                req.session.verified = true;
+                            }
                             res.send(result)
                         }else{
                             res.send({message:"Wrong password"});
@@ -184,19 +190,31 @@ app.put("/off2FA/:username", (req,res)=>{
 
 app.get("/otp", (req, res) =>{
     const receiver = req.session.email
+    const otp = otpGenerator.generate(4, { lowerCaseAlphabets: false, upperCaseAlphabets: false, specialChars: false });
+    req.session.otp = otp
     content = {
         from: "2faappproject@gmail.com",
         to: receiver,
         subject: "OTP Code",
-        text: "Your OTP Code is: 1234, please enter it to verify that you signed it to your account"
+        text: "Your OTP Code is: " + otp + ", please enter it to verify that you signed it to your account"
     }
     mailTransporter.sendMail(content, (err) =>{
         if(err){
             console.log(err);
         }else{
-            res.send("otp email sent!");
+            res.send({message:"Email Sent!"});
         }
     })
+})
+
+app.post("/otp", (req,res)=>{
+    const sentOTP = req.body.otp; 
+    if(sentOTP === req.session.otp){
+        req.session.verified = true;
+        res.send({isSuccess: true});
+    }else{
+        res.send({isSuccess: false});
+    }
 })
 
 app.listen(5000, () => {console.log("Listening on Port 5000")})
