@@ -30,7 +30,7 @@ const Login = () =>{
                     setLoading(true);
                     Axios.get("http://localhost:5000/otp").then((response)=>{
                         if(response.data.message){
-                            nav('/otp', {state: {validLogIn:true, forgotPass:false} })
+                            nav('/otp', {state: {forgotPass:false} })
                         }                       
                     })
                 }else{

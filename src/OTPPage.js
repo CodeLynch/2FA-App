@@ -31,13 +31,27 @@ const OTPPage = () =>{
         };
 
         const submitOTP = () => {
-            Axios.post("http://localhost:5000/otp", {otp: OTP}).then((response) => {
+            if(location.state.forgotPass === true){
+                Axios.post("http://localhost:5000/resetPassOtp", {otp: OTP}).then((response) => {
                 if(response.data.isSuccess === true){
-                    nav("/", {state: {reload:true}});
+                        nav("/resetpassword", {state: {otpSuccess:true}});
+                    
                 }else{
                     setInvalid(true);
                 }
             })
+            }else{
+                Axios.post("http://localhost:5000/2FAOtp", {otp: OTP}).then((response) => {
+                if(response.data.isSuccess === true){
+                        nav("/", {state: {reload:true}});
+                    
+                }else{
+                    setInvalid(true);
+                }
+            })
+
+            }
+            
 
         };
 

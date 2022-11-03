@@ -131,6 +131,22 @@ app.post("/users", (req,res)=>{
     );
 })
 
+app.post("/emails", (req,res)=>{
+    const email = req.body.email;
+        db.query(
+                "SELECT * FROM users WHERE email = ?;",
+               email,
+               (err, result) => {
+                   if(err){
+                       res.send({isSuccess: false, message: err});
+                   }else{
+                       res.send({isSuccess: true, message:"Email found"});
+                   }
+               }
+           );
+     
+})
+
 app.get("/users/:username", (req,res)=>{
     const username = req.params.username;
      db.query(
@@ -196,7 +212,7 @@ app.get("/otp", (req, res) =>{
         from: "2faappproject@gmail.com",
         to: receiver,
         subject: "OTP Code",
-        text: "Your OTP Code is: " + otp + ", please enter it to verify that you signed it to your account"
+        text: "Your OTP Code is: " + otp + ", please enter it to verify that you signed it to your account."
     }
     mailTransporter.sendMail(content, (err) =>{
         if(err){
@@ -207,10 +223,38 @@ app.get("/otp", (req, res) =>{
     })
 })
 
-app.post("/otp", (req,res)=>{
+app.get("/otp/:email", (req, res) =>{
+    const receiver = req.params.email;
+    const otp = otpGenerator.generate(4, { lowerCaseAlphabets: false, upperCaseAlphabets: false, specialChars: false });
+    req.session.otp = otp
+    content = {
+        from: "2faappproject@gmail.com",
+        to: receiver,
+        subject: "OTP Code",
+        text: "Your OTP Code is: " + otp + ", please enter it to verify that you want to reset your password."
+    }
+    mailTransporter.sendMail(content, (err) =>{
+        if(err){
+            console.log(err);
+        }else{
+            res.send({message:"Email Sent!"});
+        }
+    })
+})
+
+app.post("/2FAOtp", (req,res)=>{
     const sentOTP = req.body.otp; 
     if(sentOTP === req.session.otp){
         req.session.verified = true;
+        res.send({isSuccess: true});
+    }else{
+        res.send({isSuccess: false});
+    }
+})
+
+app.post("/resetPassOtp", (req,res)=>{
+    const sentOTP = req.body.otp; 
+    if(sentOTP === req.session.otp){
         res.send({isSuccess: true});
     }else{
         res.send({isSuccess: false});

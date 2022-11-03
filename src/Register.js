@@ -28,11 +28,9 @@ const Register = () =>{
                         }).then((response) =>{
                                 if(response.data.message){
                                         alert(response.data.message)
-                                        console.log("nope it's this one here!");
                                 }else{
                                         alert("Successfully Registered!")
                                         setIsRegistered(true);
-                                        console.log("Just this one here!");
                                 }
                                         
                         }).catch(e => {

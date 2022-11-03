@@ -11,7 +11,6 @@ const Profile = (props) =>{
     Axios.defaults.withCredentials = true;
 
     useEffect(()=>{
-        console.log(using2FA);
         Axios.get(`http://localhost:5000/users/${props.username}`).then((response)=>{
           if(response.data[0].use2FA === 1){
             set2FA(true);
@@ -20,7 +19,7 @@ const Profile = (props) =>{
           }
           setLoading(false);
         })
-    }, [using2FA])
+    }, [props.username])
 
     const update2FA = () =>{
         if(using2FA){
