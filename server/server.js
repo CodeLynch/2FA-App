@@ -83,7 +83,7 @@ app.post("/register", async (req,res) =>{
             db.query(
                 "INSERT INTO users (firstname, lastname, email, username, password) VALUES (?,?,?,?,?)",
                 [firstname, lastname, email, username, hash],
-                (err, result) =>{
+                (err, res) =>{
                     if(err != null){
                         console.log(err);
                         res.send({message:"Registration Error"});
@@ -137,6 +137,7 @@ app.post("/emails", (req,res)=>{
                 "SELECT * FROM users WHERE email = ?;",
                email,
                (err, result) => {
+                    console.log(res);
                    if(err){
                        res.send({isSuccess: false, message: err});
                    }else{
@@ -259,6 +260,28 @@ app.post("/resetPassOtp", (req,res)=>{
     }else{
         res.send({isSuccess: false});
     }
+})
+
+app.post("/changePass", (req,res)=>{
+    const email = req.body.email;
+    const pass = req.body.newPass;
+    bcrypt.hash(pass, saltRounds, (err, hash)=>{
+        if (err){
+            console.log(err)
+        }
+        db.query(
+            "UPDATE users SET password = ? WHERE email = ?",
+           [hash,email],
+           (err, result) => {
+               if(err){
+                   res.send({error: err});
+               }else{
+                res.send({isSuccess: true})
+                }
+           }
+       );
+    })
+
 })
 
 app.listen(5000, () => {console.log("Listening on Port 5000")})

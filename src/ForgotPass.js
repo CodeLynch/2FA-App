@@ -26,8 +26,8 @@ const ForgotPass = () =>{
                 }else{
                     setLoading(true);
                     Axios.get(`http://localhost:5000/otp/${emailIn}`).then((response)=>{
-                        if(response.data.message){
-                            nav('/otp', {state: {forgotPass:true} })
+                        if(response.data.message && validInputs){
+                            nav('/otp', {state: {forgotPass:true, email: emailIn} })
                         }                       
                     })    
                 }

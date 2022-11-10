@@ -4,6 +4,7 @@ import Button from 'react-bootstrap/Button';
 import Axios from 'axios';
 import Alert from 'react-bootstrap/Alert';
 import { useLocation, useNavigate } from "react-router-dom";
+import { propTypes } from "react-bootstrap/esm/Image";
 
 
 const OTPPage = () =>{
@@ -13,13 +14,14 @@ const OTPPage = () =>{
         const [allowResend, setResend] = useState(false)
         const [invalidOTP, setInvalid] = useState(false)
         
-
+        //if no state is passed that means the user did not submit an email or a login
         useEffect(()=>{
             if(location.state === null){
                 nav('/');
             }
         }, [nav, location.state])
 
+        //Send a new otp if timer is done
         const handleResend = () => {
             if(!allowResend){
                 alert("Please wait until the timer ends");
@@ -30,11 +32,13 @@ const OTPPage = () =>{
             }
         };
 
+        
         const submitOTP = () => {
             if(location.state.forgotPass === true){
                 Axios.post("http://localhost:5000/resetPassOtp", {otp: OTP}).then((response) => {
                 if(response.data.isSuccess === true){
-                        nav("/resetpassword", {state: {otpSuccess:true}});
+                    console.log("email is " + location.state.email)
+                        nav("/resetpassword", {state: {otpSuccess:true, email:location.state.email}});
                     
                 }else{
                     setInvalid(true);
