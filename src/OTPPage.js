@@ -4,7 +4,6 @@ import Button from 'react-bootstrap/Button';
 import Axios from 'axios';
 import Alert from 'react-bootstrap/Alert';
 import { useLocation, useNavigate } from "react-router-dom";
-import { propTypes } from "react-bootstrap/esm/Image";
 
 
 const OTPPage = () =>{
@@ -37,7 +36,6 @@ const OTPPage = () =>{
             if(location.state.forgotPass === true){
                 Axios.post("http://localhost:5000/resetPassOtp", {otp: OTP}).then((response) => {
                 if(response.data.isSuccess === true){
-                    console.log("email is " + location.state.email)
                         nav("/resetpassword", {state: {otpSuccess:true, email:location.state.email}});
                     
                 }else{

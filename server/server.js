@@ -83,7 +83,7 @@ app.post("/register", async (req,res) =>{
             db.query(
                 "INSERT INTO users (firstname, lastname, email, username, password) VALUES (?,?,?,?,?)",
                 [firstname, lastname, email, username, hash],
-                (err, res) =>{
+                (err, result) =>{
                     if(err != null){
                         console.log(err);
                         res.send({message:"Registration Error"});
@@ -137,11 +137,16 @@ app.post("/emails", (req,res)=>{
                 "SELECT * FROM users WHERE email = ?;",
                email,
                (err, result) => {
-                    console.log(res);
                    if(err){
                        res.send({isSuccess: false, message: err});
                    }else{
-                       res.send({isSuccess: true, message:"Email found"});
+                    if(result.length > 0){
+                        res.send({isSuccess: true, message:"Email found"});
+                    }else{
+                        res.send({isSuccess: false, message: "Email not found"});
+                    }
+                       
+                       
                    }
                }
            );

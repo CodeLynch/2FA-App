@@ -52,7 +52,11 @@ const Login = () =>{
                   }
                 setValidated(true);  
             };
-
+    const clearAlerts = () =>{
+        setValidated(false);
+        setInvalidLogIn(false);
+        setLoginError('');
+    } 
     let alertTag ="";
     if(invalidLogIn){
         alertTag = <Alert key="danger" variant="danger">{loginError}</Alert>        
@@ -70,14 +74,14 @@ const Login = () =>{
                         <h1 className="f1">Log-In</h1>
                                 {alertTag}
                                 <Form noValidate validated={validated} onSubmit={ handleSubmit }>
-                                    <Form.Group className="mb-3" controlId="formUsername" onChange={(e)=>{setUsernameLog(e.target.value);}}>
+                                    <Form.Group className="mb-3" controlId="formUsername" onChange={(e)=>{setUsernameLog(e.target.value); clearAlerts()}}>
                                             <Form.Control required type="text" placeholder="Username" />
                                             <Form.Control.Feedback type="invalid">
                                                 Please enter a username.
                                             </Form.Control.Feedback>
                                     </Form.Group>
 
-                                    <Form.Group className="mb-3" controlId="formPassword" onChange={(e)=>{setPasswordLog(e.target.value);}}>
+                                    <Form.Group className="mb-3" controlId="formPassword" onChange={(e)=>{setPasswordLog(e.target.value); clearAlerts()}}>
                                             <Form.Control required type="password" placeholder="Password" />
                                             <Form.Control.Feedback type="invalid">
                                                 Please enter your password.

@@ -28,7 +28,6 @@ const ResetPass = (props) =>{
                                 email: location.state.email,
                                 newPass: password,
                                 }).then((response) =>{
-                                        console.log(response);
                                         if(response.data.isSuccess === true){
                                                 alert("Password successfully changed!");
                                                 nav('/', {state: {reload:true}});
