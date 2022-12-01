@@ -11,4 +11,4 @@ Go first to the directory of the server folder in this app and call 'npm run dev
 of this app.
 Open another terminal and go to the directory of this app and call 'npm start' to run the frontend of the app.
 
-The app should open in your browser and ready for testing!
+The app should open in your browser and is ready for testing!
