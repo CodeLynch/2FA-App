@@ -65,13 +65,13 @@ const Register = () =>{
                                 <h1 className="f1">Registration</h1>
                                         <Form noValidate validated={validated} onSubmit={handleSubmit}>
                                                 <Form.Group className="mb-1" controlId="formFirstName" onChange={(e)=>{setFirstnameReg(e.target.value); setValidated(false)}}>
-                                                        <Form.Control required type="text" placeholder="First Name" />
+                                                        <Form.Control required type="text" placeholder="First Name" maxLength={20} />
                                                         <Form.Control.Feedback type="invalid">
                                                         Please enter your first name.
                                                         </Form.Control.Feedback>
                                                 </Form.Group>
                                                 <Form.Group className="mb-1" controlId="formLastName" onChange={(e)=>{setLastnameReg(e.target.value); setValidated(false)}}>
-                                                        <Form.Control required type="text" placeholder="Last Name" />
+                                                        <Form.Control required type="text" placeholder="Last Name" maxLength={20} />
                                                         <Form.Control.Feedback type="invalid">
                                                         Please enter your last name.
                                                         </Form.Control.Feedback>
@@ -83,13 +83,13 @@ const Register = () =>{
                                                         </Form.Control.Feedback>
                                                 </Form.Group>
                                                 <Form.Group className="mb-1" controlId="formUsername" onChange={(e)=>{setUsernameReg(e.target.value); setValidated(false)}}>
-                                                        <Form.Control required type="text" placeholder="Username" />
+                                                        <Form.Control required type="text" placeholder="Username" maxLength={20}/>
                                                         <Form.Control.Feedback type="invalid">
                                                         Please enter a username.
                                                         </Form.Control.Feedback>
                                                 </Form.Group>
                                                 <Form.Group className="mb-1" controlId="formPassword" onChange={(e)=>{setPasswordReg(e.target.value); setValidated(false)}}>
-                                                        <Form.Control required type="password" placeholder="Password" />
+                                                        <Form.Control required type="password" placeholder="Password" maxLength={20} />
                                                         <Form.Control.Feedback type="invalid">
                                                         Please enter a password.
                                                         </Form.Control.Feedback>

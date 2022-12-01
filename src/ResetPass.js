@@ -23,20 +23,24 @@ const ResetPass = (props) =>{
 
         const updatePassword = () =>{
                 if(password !== "" && repassword !== ""){
-                        if(password === repassword){
-                                Axios.post('http://localhost:5000/changePass', {
-                                email: location.state.email,
-                                newPass: password,
-                                }).then((response) =>{
-                                        if(response.data.isSuccess === true){
-                                                alert("Password successfully changed!");
-                                                nav('/', {state: {reload:true}});
-                                        }
-                                }).catch(e => {
-                                        console.log(e);
-                                });
+                        if(password.length < 20 && repassword.length < 20){
+                                if(password === repassword){
+                                        Axios.post('http://localhost:5000/changePass', {
+                                        email: location.state.email,
+                                        newPass: password,
+                                        }).then((response) =>{
+                                                if(response.data.isSuccess === true){
+                                                        alert("Password successfully changed!");
+                                                        nav('/', {state: {reload:true}});
+                                                }
+                                        }).catch(e => {
+                                                console.log(e);
+                                        });
+                                }else{
+                                        setInvalid("Passwords do not match!");
+                                }        
                         }else{
-                                setInvalid("Passwords do not match!");
+                                setInvalid('Maximum character input reached!')
                         }
                 }
         };

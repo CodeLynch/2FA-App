@@ -75,14 +75,14 @@ const Login = () =>{
                                 {alertTag}
                                 <Form noValidate validated={validated} onSubmit={ handleSubmit }>
                                     <Form.Group className="mb-3" controlId="formUsername" onChange={(e)=>{setUsernameLog(e.target.value); clearAlerts()}}>
-                                            <Form.Control required type="text" placeholder="Username" />
+                                            <Form.Control required type="text" placeholder="Username" maxLength={20} />
                                             <Form.Control.Feedback type="invalid">
                                                 Please enter a username.
                                             </Form.Control.Feedback>
                                     </Form.Group>
 
                                     <Form.Group className="mb-3" controlId="formPassword" onChange={(e)=>{setPasswordLog(e.target.value); clearAlerts()}}>
-                                            <Form.Control required type="password" placeholder="Password" />
+                                            <Form.Control required type="password" placeholder="Password" maxLength={20}/>
                                             <Form.Control.Feedback type="invalid">
                                                 Please enter your password.
                                             </Form.Control.Feedback>

@@ -20,6 +20,8 @@ const OTPPage = () =>{
             }
         }, [nav, location.state])
 
+        
+
         //Send a new otp if timer is done
         const handleResend = () => {
             if(!allowResend){

@@ -46,14 +46,26 @@ app.use(bodyParser.urlencoded( {extended:true }));
 const db = mysql.createConnection({
     host: 'localhost',
     user: 'root',
-    password: '',
-    database: '2fa_app'
-})
+    password: ''
+,})
 
 db.connect((err) =>{
     if(err){
         throw err;
     }
+    db.query("CREATE DATABASE IF NOT EXISTS 2fa_app", function (err, result) {
+      if (err){
+        throw err;
+      } 
+      console.log("Database created");
+      db.query("USE 2fa_app");
+      db.query("CREATE TABLE IF NOT EXISTS `users` (`UserID` int(11) NOT NULL AUTO_INCREMENT,`firstname` varchar(50) NOT NULL,`lastname` varchar(50) NOT NULL,`email` varchar(50) NOT NULL,`username` varchar(20) NOT NULL,`password` varchar(100) NOT NULL,`use2FA` tinyint(1) NOT NULL DEFAULT 0, PRIMARY KEY (`UserID`), UNIQUE KEY `email` (`email`), UNIQUE KEY `username` (`username`)) ENGINE=InnoDB AUTO_INCREMENT=37 DEFAULT CHARSET=utf8mb4", function (err, result) {
+        if (err){
+          throw err;
+        } 
+        console.log("Table created");
+      })
+    });
     console.log("MySql Connected")
 })
 
@@ -86,7 +98,7 @@ app.post("/register", async (req,res) =>{
                 (err, result) =>{
                     if(err != null){
                         console.log(err);
-                        res.send({message:"Registration Error"});
+                        res.send({message:err.sqlMessage});
                     }else{
                         res.send("Post successful")
                     }
@@ -141,6 +153,7 @@ app.post("/emails", (req,res)=>{
                        res.send({isSuccess: false, message: err});
                    }else{
                     if(result.length > 0){
+                        req.session.email = result[0].email
                         res.send({isSuccess: true, message:"Email found"});
                     }else{
                         res.send({isSuccess: false, message: "Email not found"});
