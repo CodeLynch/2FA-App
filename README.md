@@ -4,7 +4,7 @@ and developed by John Vergil Aparri.
 
 ## `How to test this app`
 Make sure that you have an application that can run a local web server like XAMPP, WAMP, MAMP, etc.
-and Node.js installed in your computer 
+and you have Node.js installed in your computer 
 
 After starting the server open a terminal and go to the directory where you placed this app.
 Go first to the directory of the server folder in this app and call 'npm run devStart' to run the backend
