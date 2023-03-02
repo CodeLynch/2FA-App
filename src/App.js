@@ -54,9 +54,9 @@ function App() {
   }else{
     return( 
       <Routes>
-         <Route path="/" element={<div className='App-content'><Login /></div>}/>
-         <Route path="/register" element={<div className='App-content'><Register /></div>} />
-         <Route path="/forgotpassword" element={<div className='App-content'><ForgotPass /></div>} />
+         <Route path="/" element={<div className='App-content main-background'><Login /></div>}/>
+         <Route path="/register" element={<div className='App-content main-background'><Register /></div>} />
+         <Route path="/forgotpassword" element={<div className='App-content forgot-background'><ForgotPass /></div>} />
          <Route path="/resetpassword" element={<div className='App-content'><ResetPass /></div>} />
          <Route path="/otp" element={<div className='App-content'><OTPPage/></div>} />
       </Routes>

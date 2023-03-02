@@ -62,9 +62,13 @@ const ForgotPass = () =>{
         return <h1>LOADING...</h1>
     }else{
         return (
-            <div className="w-100">
-                <div className="container" align="center">
-                <div className="col-lg-8 px-5 py-5 row justify-content-center text-start">
+            <div className='d-flex flex-column w-100 h-100'>
+                <div className='d-flex mt-5 p-5 justify-content-center'>
+                    <img src="2falogo.png" height={85} width={130}/>
+                </div>
+                <div className="w-100 mt-1">
+                <div className="container bg-white shadow w-50 rounded" align="center">
+                <div className="col-lg-15 px-5 py-5 row justify-content-center text-start">
                         <h1 className="f1">Forgot Password?</h1>
                                 <Form noValidate validated={validated} onSubmit={handleSubmit}>
                                     <Form.Label>Enter the email of your account to reset your password</Form.Label>
@@ -78,7 +82,7 @@ const ForgotPass = () =>{
                                                         </Form.Control.Feedback>
                                                 </Form.Group>
                                             </div>  
-                                            <div className="flex-column">  
+                                            <div className="flex-column ">  
                                                 <Button align="right" variant="primary" type="submit">
                                                     Reset Password
                                                 </Button>
@@ -88,6 +92,8 @@ const ForgotPass = () =>{
                         </div>
                 </div>
             </div>
+            </div>
+            
         )
     }
     

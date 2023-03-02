@@ -1,7 +1,8 @@
+import './Buttons.css';
 import React, { useState } from "react";
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
-import { Navigate } from 'react-router-dom';
+import { Navigate, Link } from 'react-router-dom';
 import Axios from 'axios';
 
 
@@ -59,9 +60,13 @@ const Register = () =>{
                 return <Navigate to={"/"} state={{ justRegistered:"true" }} />
               }          
               return (
+                <div className='d-flex flex-column w-100 h-100'>
+                        <div className='m-3 p-1'>
+                        <img src="2falogo.png" height={85} width={130}/>
+                        </div>
                         <div className="w-100">
-                        <div className="container" align="center">
-                        <div className="col-lg-8 px-5 py-5 row justify-content-center text-start" >
+                        <div className="container bg-white shadow w-50 rounded" align="center">
+                        <div className="col-lg-15 p-5 row justify-content-center text-start" >
                                 <h1 className="f1">Registration</h1>
                                         <Form noValidate validated={validated} onSubmit={handleSubmit}>
                                                 <Form.Group className="mb-1" controlId="formFirstName" onChange={(e)=>{setFirstnameReg(e.target.value); setValidated(false)}}>
@@ -94,8 +99,9 @@ const Register = () =>{
                                                         Please enter a password.
                                                         </Form.Control.Feedback>
                                                 </Form.Group>
-                                                <div className="d-flex justify-content-end">
-                                                                <Button align="right" variant="primary" type="submit">
+                                                <div className="d-flex justify-content-between">
+                                                                <Link to="/">Back to Login Page</Link>
+                                                                <Button className="btn-ultra-voilet" align="right" type="submit">
                                                                         Register
                                                                 </Button>
                                                 </div>
@@ -103,6 +109,7 @@ const Register = () =>{
                                 </div>
                         </div>
                         </div>
+                </div>       
                 )
 }
 

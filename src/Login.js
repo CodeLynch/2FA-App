@@ -1,3 +1,4 @@
+import './Buttons.css';
 import React, { useState } from "react";
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
@@ -68,41 +69,47 @@ const Login = () =>{
         return <h1>LOADING...</h1>
     }else{
         return (
-            <div className="w-100">
-                <div className="container" align="center">
-                <div className="col-lg-8 px-5 py-5 row justify-content-center text-start">
-                        <h1 className="f1">Log-In</h1>
-                                {alertTag}
-                                <Form noValidate validated={validated} onSubmit={ handleSubmit }>
-                                    <Form.Group className="mb-3" controlId="formUsername" onChange={(e)=>{setUsernameLog(e.target.value); clearAlerts()}}>
-                                            <Form.Control required type="text" placeholder="Username" maxLength={20} />
-                                            <Form.Control.Feedback type="invalid">
-                                                Please enter a username.
-                                            </Form.Control.Feedback>
-                                    </Form.Group>
+            <div className='d-flex flex-column w-100 h-100'>
+                <div className='m-3 p-1'>
+                    <img src="2falogo.png" height={85} width={130}/>
+                </div>
+                <div className="w-100 mt-3">
+                    <div className="container bg-white shadow w-50 rounded" align="center">
+                        <div className="col-lg-15 px-5 py-5 row justify-content-center text-start">
+                                <h1 className="f1">Log-In</h1>
+                                        {alertTag}
+                                        <Form noValidate validated={validated} onSubmit={ handleSubmit }>
+                                            <Form.Group className="mb-3" controlId="formUsername" onChange={(e)=>{setUsernameLog(e.target.value); clearAlerts()}}>
+                                                    <Form.Control required type="text" placeholder="Username" maxLength={20} />
+                                                    <Form.Control.Feedback type="invalid">
+                                                        Please enter a username.
+                                                    </Form.Control.Feedback>
+                                            </Form.Group>
 
-                                    <Form.Group className="mb-3" controlId="formPassword" onChange={(e)=>{setPasswordLog(e.target.value); clearAlerts()}}>
-                                            <Form.Control required type="password" placeholder="Password" maxLength={20}/>
-                                            <Form.Control.Feedback type="invalid">
-                                                Please enter your password.
-                                            </Form.Control.Feedback>
-                                    </Form.Group>
-                                        <div className="d-flex justify-content-between">
-                                            <div>
-                                            <Form.Text className="text-muted">
-                                                Don't have an account? Register&nbsp;
-                                            </Form.Text>
-                                            <Link to="/register">here</Link>
-                                            </div>
-                                            <Button align="right" variant="primary" type="submit" onClick={ login }>
-                                                Log-In
-                                            </Button>
-                                        </div>
-                                            <a href="forgotpassword">Forgot Password?</a>
-                                </Form>
+                                            <Form.Group className="mb-3" controlId="formPassword" onChange={(e)=>{setPasswordLog(e.target.value); clearAlerts()}}>
+                                                    <Form.Control required type="password" placeholder="Password" maxLength={20}/>
+                                                    <Form.Control.Feedback type="invalid">
+                                                        Please enter your password.
+                                                    </Form.Control.Feedback>
+                                            </Form.Group>
+                                                <div className="d-flex justify-content-between">
+                                                    <div>
+                                                    <Form.Text className="text-muted">
+                                                        Don't have an account? Register&nbsp;
+                                                    </Form.Text>
+                                                    <Link to="/register">here</Link>
+                                                    </div>
+                                                    <Button className="btn-ultra-voilet" align="right" type="submit" onClick={ login }>
+                                                        Login
+                                                    </Button>
+                                                </div>
+                                                    <a href="forgotpassword">Forgot Password?</a>
+                                        </Form>
                         </div>
+                    </div>
                 </div>
             </div>
+            
         )
     }
     
