@@ -13,12 +13,12 @@ const ProfileNav = () =>{
 
     
         return (
-            <div className="w-100 h-100 shadow-sm">
+            <div className="w-100 h-100 shadow-sm nav-background shadow-sm">
                 <div className="container">
                     <Nav className="d-flex flex-row-reverse py-2" bg="primary" variant="dark">
                         <Nav.Item>
-                            <Button className="mx-0 p-0" variant="link text-decoration-none" type="submit" onClick={ logout }>
-                                Logout
+                            <Button className="mx-0 p-0" variant="text-decoration-none" type="submit" onClick={ logout }>
+                                <p className="m-0 navText">Logout</p>
                             </Button>
                         </Nav.Item>
                     </Nav>

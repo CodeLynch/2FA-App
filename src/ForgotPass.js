@@ -4,6 +4,7 @@ import Form from 'react-bootstrap/Form';
 import Axios  from "axios";
 import { useNavigate } from "react-router-dom";
 import Alert from 'react-bootstrap/Alert';
+import Spinner from 'react-bootstrap/Spinner';
 
 const ForgotPass = () =>{
     const [emailIn, setEmail] = useState('');
@@ -59,12 +60,20 @@ const ForgotPass = () =>{
         alertTag = <Alert key="danger" variant="danger">{errMessage}</Alert>        
     }
     if(isLoading){
-        return <h1>LOADING...</h1>
+       return <>
+        <div className='container d-flex justify-content-center align-items-center' style={{height:"100vh", width:"200vw", background:"white"}}>
+            <div className='d-flex justify-content-center flex-column'>
+                <div className='d-flex justify-content-center'>
+                    <Spinner className='m-3' animation="border" style={{height:"100px", width:"100px", color:"#de91ff"}} />
+                </div>
+            </div>
+        </div>
+        </>
     }else{
         return (
-            <div className='d-flex flex-column w-100 h-100'>
+            <div className='d-flex flex-column w-100 h-100 forgot-background'>
                 <div className='d-flex mt-5 p-5 justify-content-center'>
-                    <img src="2falogo.png" height={85} width={130}/>
+                    <img src="2falogo.png" height={85} width={130} alt="logo"/>
                 </div>
                 <div className="w-100 mt-1">
                 <div className="container bg-white shadow w-50 rounded" align="center">
@@ -92,6 +101,12 @@ const ForgotPass = () =>{
                         </div>
                 </div>
             </div>
+            <footer className="d-flex justify-content-center align-items-end flex-row" style={{color:"grey", fontSize:".7rem"}}> 
+                    <div className="d-flex justify-content-center">
+                        This project was created to fulfill a requirement for CSIT335.
+                    </div> 
+                    <img className='mx-1' src="2falogoALT.png" height={35} width={50} alt="grey logo"/>
+            </footer>   
             </div>
             
         )

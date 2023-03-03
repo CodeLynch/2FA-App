@@ -9,6 +9,7 @@ import ResetPass from './ResetPass';
 import OTPPage from './OTPPage';
 import ProfileNav from './ProfileNav';
 import  Axios  from 'axios';
+import Spinner from 'react-bootstrap/Spinner';
 import { useEffect, useState } from 'react';
 
 function App() {
@@ -40,7 +41,12 @@ function App() {
   if(isLoading){
     return( 
       <Routes>
-         <Route path="/" element={ <div className='App-content'><h1>LOADING...</h1></div>}/>
+         <Route path="/" element={ <div className='App-content'><>
+        <div className='d-flex justify-content-center flex-column'>
+            <Spinner animation="border" variant="info" />
+            <p>Please Wait...</p>
+        </div>
+        </></div>}/>
       </Routes>
      );
     
@@ -54,9 +60,9 @@ function App() {
   }else{
     return( 
       <Routes>
-         <Route path="/" element={<div className='App-content main-background'><Login /></div>}/>
-         <Route path="/register" element={<div className='App-content main-background'><Register /></div>} />
-         <Route path="/forgotpassword" element={<div className='App-content forgot-background'><ForgotPass /></div>} />
+         <Route path="/" element={<div className='App-content'><Login /></div>}/>
+         <Route path="/register" element={<div className='App-content'><Register /></div>} />
+         <Route path="/forgotpassword" element={<div className='App-content'><ForgotPass /></div>} />
          <Route path="/resetpassword" element={<div className='App-content'><ResetPass /></div>} />
          <Route path="/otp" element={<div className='App-content'><OTPPage/></div>} />
       </Routes>
