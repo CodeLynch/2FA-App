@@ -85,7 +85,7 @@ const Login = () =>{
                 <div className="w-100 mt-3">
                     <div className="container bg-white shadow w-50 rounded" align="center">
                         <div className="col-lg-15 px-5 py-5 row justify-content-center text-start">
-                                <h1 className="f1">Log-In</h1>
+                                <h1 className="f1 ">Log-In</h1>
                                         {alertTag}
                                         <Form noValidate validated={validated} onSubmit={ handleSubmit }>
                                             <Form.Group className="mb-3" controlId="formUsername" onChange={(e)=>{setUsernameLog(e.target.value); clearAlerts()}}>
@@ -108,7 +108,7 @@ const Login = () =>{
                                                     </Form.Text>
                                                     <Link to="/register">here</Link>
                                                     </div>
-                                                    <Button className="btn-ultra-voilet" align="right" type="submit" onClick={ login }>
+                                                    <Button className="btn-plum" align="right" type="submit" onClick={ login }>
                                                         Login
                                                     </Button>
                                                 </div>
@@ -121,7 +121,7 @@ const Login = () =>{
                     <div className="d-flex justify-content-center">
                         This project was created to fulfill a requirement for CSIT335.
                     </div> 
-                    <img className='mx-1' src="2falogoALT.png" height={35} width={50} alt="grey logo"/>
+                    <img className='m-1' src="2falogoALT.png" height={35} width={50} alt="grey logo"/>
                 </footer>            
             </div>
             

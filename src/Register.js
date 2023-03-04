@@ -67,7 +67,7 @@ const Register = () =>{
                         <div className="w-100">
                         <div className="container bg-white shadow w-50 rounded" align="center">
                         <div className="col-lg-15 p-5 row justify-content-center text-start" >
-                                <h1 className="f1">Registration</h1>
+                                <h1 className="f1 styledText">Registration</h1>
                                         <Form noValidate validated={validated} onSubmit={handleSubmit}>
                                                 <Form.Group className="mb-1" controlId="formFirstName" onChange={(e)=>{setFirstnameReg(e.target.value); setValidated(false)}}>
                                                         <Form.Control required type="text" placeholder="First Name" maxLength={20} />
@@ -101,7 +101,7 @@ const Register = () =>{
                                                 </Form.Group>
                                                 <div className="d-flex justify-content-between">
                                                                 <Link to="/">Back to Login Page</Link>
-                                                                <Button className="btn-ultra-voilet" align="right" type="submit">
+                                                                <Button className="btn-plum" align="right" type="submit">
                                                                         Register
                                                                 </Button>
                                                 </div>
@@ -113,7 +113,7 @@ const Register = () =>{
                         <div className="d-flex justify-content-center">
                                 This project was created to fulfill a requirement for CSIT335.
                         </div> 
-                        <img className='mx-1' src="2falogoALT.png" height={35} width={50} alt="grey logo"/>
+                        <img className='m-1' src="2falogoALT.png" height={35} width={50} alt="grey logo"/>
                 </footer>   
                 </div>       
                 )

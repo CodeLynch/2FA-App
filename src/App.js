@@ -1,3 +1,4 @@
+import './index.css';
 import './App.css';
 import Login from './Login';
 import Register from './Register';
@@ -42,10 +43,13 @@ function App() {
     return( 
       <Routes>
          <Route path="/" element={ <div className='App-content'><>
-        <div className='d-flex justify-content-center flex-column'>
-            <Spinner animation="border" variant="info" />
-            <p>Please Wait...</p>
-        </div>
+         <div className='container d-flex justify-content-center align-items-center' style={{height:"100vh", width:"200vw", background:"white"}}>
+                <div className='d-flex justify-content-center flex-column'>
+                    <div className='d-flex justify-content-center'>
+                        <Spinner className='m-3' animation="border" style={{height:"100px", width:"100px", color:"#de91ff"}} />
+                    </div>
+                </div>
+          </div>
         </></div>}/>
       </Routes>
      );

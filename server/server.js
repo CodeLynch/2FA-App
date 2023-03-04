@@ -132,11 +132,11 @@ app.post("/users", (req,res)=>{
                             }
                             res.send(result)
                         }else{
-                            res.send({message:"Wrong password"});
+                            res.send({message:"Invalid Username/Password"});
                         }
                     })
                  }else{
-                    res.send({message:"Invalid Username"});
+                    res.send({message:"Invalid Username/Password"});
                  }
             }
         }

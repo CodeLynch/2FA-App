@@ -62,9 +62,12 @@ const ResetPass = (props) =>{
         }
          
               return (
-                        <div className="w-100">
+                        <div className="w-100 forgot-background d-flex flex-column">
+                                <div className='d-flex p-5 justify-content-center'>
+                                        <img src="2falogo.png" height={85} width={130} alt="logo"/>
+                                </div>
                         <div className="container" align="center">
-                        <div className="col-lg-8 px-5 py-5 row justify-content-center text-start" >
+                        <div className="col-lg-15 p-5 row bg-white shadow w-50 rounded justify-content-center text-start" >
                                 <h1 className="f1">Reset Password</h1>
                                 <p> Enter your new password</p>
                                 {alertTag}
@@ -82,13 +85,19 @@ const ResetPass = (props) =>{
                                                         </Form.Control.Feedback>
                                                 </Form.Group>
                                                 <div className="d-flex justify-content-end">
-                                                                <Button align="right" variant="primary" type="submit" onClick={updatePassword}>
-                                                                        Confirm
+                                                                <Button className="btn-plum" align="right" type="submit" onClick={updatePassword}> 
+                                                                Confirm
                                                                 </Button>
                                                 </div>
                                         </Form>
                                 </div>
                         </div>
+                                <footer className="d-flex justify-content-center align-items-end flex-row" style={{color:"grey", fontSize:".7rem"}}> 
+                                        <div className="d-flex justify-content-center">
+                                        This project was created to fulfill a requirement for CSIT335.
+                                        </div> 
+                                <img className='m-1' src="2falogoALT.png" height={35} width={50} alt="grey logo"/>
+                                </footer> 
                         </div>
                 )
 }

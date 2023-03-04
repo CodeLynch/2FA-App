@@ -78,7 +78,7 @@ const ForgotPass = () =>{
                 <div className="w-100 mt-1">
                 <div className="container bg-white shadow w-50 rounded" align="center">
                 <div className="col-lg-15 px-5 py-5 row justify-content-center text-start">
-                        <h1 className="f1">Forgot Password?</h1>
+                        <h1 className="f1 styledText">Forgot Password?</h1>
                                 <Form noValidate validated={validated} onSubmit={handleSubmit}>
                                     <Form.Label>Enter the email of your account to reset your password</Form.Label>
                                     {alertTag}
@@ -92,7 +92,7 @@ const ForgotPass = () =>{
                                                 </Form.Group>
                                             </div>  
                                             <div className="flex-column ">  
-                                                <Button align="right" variant="primary" type="submit">
+                                                <Button className="btn-plum" align="right" variant="primary" type="submit">
                                                     Reset Password
                                                 </Button>
                                             </div>
@@ -105,7 +105,7 @@ const ForgotPass = () =>{
                     <div className="d-flex justify-content-center">
                         This project was created to fulfill a requirement for CSIT335.
                     </div> 
-                    <img className='mx-1' src="2falogoALT.png" height={35} width={50} alt="grey logo"/>
+                    <img className='m-1' src="2falogoALT.png" height={35} width={50} alt="grey logo"/>
             </footer>   
             </div>
             

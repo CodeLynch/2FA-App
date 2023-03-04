@@ -69,7 +69,7 @@ const Profile = (props) =>{
                     <div className="d-flex justify-content-center">
                         This project was created to fulfill a requirement for CSIT335.
                     </div> 
-                    <img className='mx-1' src="2falogoALT.png" height={35} width={50} alt="grey logo"/>
+                    <img className='m-1' src="2falogoALT.png" height={35} width={50} alt="grey logo"/>
             </footer>   
         </div>
     )

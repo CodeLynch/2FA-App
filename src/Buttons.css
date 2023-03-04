@@ -1,7 +1,8 @@
-.btn-ultra-voilet {
-    background: 
-    linear-gradient( rgb(255, 145, 237), rgb(25, 0, 255));
-    background-size:200% auto;
-    color: #fff;
-    transition: 1s;
+.btn-plum {
+    background-color: plum !important;
+    border: none !important;
+}
+
+.btn-plum:hover {
+    background-color: rgb(154, 126, 233) !important; 
 }
