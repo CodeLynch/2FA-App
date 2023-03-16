@@ -12,6 +12,10 @@ const ResetPass = (props) =>{
         const [password, setPassword] = useState('')
         const [repassword, setRepassword] = useState('')
         const [invalidPass, setInvalid] = useState('')
+        const [PassReq, setPassReq] = useState(<></>)
+        const [PassStr, setPassStr] = useState(<></>)
+        const [isPassStrong, setStrong] = useState(false)
+        const [Def2FA, set2FA] = useState(false);
         let alertTag ='';
         
         //if no state is passed that means the user did not redirect from otp page and is not verified yet
@@ -20,14 +24,79 @@ const ResetPass = (props) =>{
                     nav('/');
                 }
             }, [nav, location.state])
+        
+        useEffect(()=>{
+                if(!isPassStrong){
+                        set2FA(true)
+                }
+        },[isPassStrong])
+        
+        const countReq = (caps, low, num, sym, len) => {
+                let count = 0
+                if(caps){
+                        count += 1;
+                }
+                if(low){
+                        count += 1;
+                }
+                if(num){
+                        count += 1;
+                }
+                if(sym){
+                        count += 1;
+                }
+                if(len){
+                        count += 1
+                }
+
+                return count;
+        }
+        const checkPassword = () => {
+                let caps = (password.match(/[A-Z]/g) || []).length > 0;
+                let low = (password.match(/[a-z]/g) || []).length > 0;
+                let num = (password.match(/[0-9]/g) || []).length > 0;
+                let sym = (password.match(/\W/g) || []).length > 0;
+                let len = password.length > 11;
+                if ((!caps || 
+                        !low || 
+                        !num || 
+                        !sym || 
+                        !len) && 
+                        password.length > 0){
+                        setStrong(false)
+                        setPassReq(<Alert key="info" variant="info">
+                        <p>Strong passwords have the following requirements:</p>
+                        <ul>
+                                {caps?<></>:<li>MUST contain at least one uppercase letter.</li>}
+                                {low?<></>:<li>MUST contain at least one lowercase letter.</li>}
+                                {num?<></>:<li>MUST contain at least one number.</li>}
+                                {sym?<></>:<li>MUST contain at least one special character.</li>}
+                                {len?<></>:<li>MUST have at least 12 characters.</li>}
+                        </ul>
+                        </Alert>)
+
+                        if(countReq(caps, low, num, sym, len) > 2){
+                                setPassStr(<p>Password Strength: <b>Medium</b></p>)
+                        }else{
+                                setPassStr(<p>Password Strength: <b>Weak</b></p>)
+                        }
+                }else{
+                        setPassReq(<></>);
+                        setStrong(true);
+                        password.length > 0? setPassStr(<p>Password Strength: <b>Strong</b></p>):setPassStr(<></>)
+                }
+        }
 
         const updatePassword = () =>{
                 if(password !== "" && repassword !== ""){
                         if(password.length < 20 && repassword.length < 20){
+                                console.log("DEF2fa is " + Def2FA)
                                 if(password === repassword){
                                         Axios.post('http://localhost:5000/changePass', {
                                         email: location.state.email,
                                         newPass: password,
+                                        strongPass: isPassStrong,
+                                        use2FA: Def2FA
                                         }).then((response) =>{
                                                 if(response.data.isSuccess === true){
                                                         alert("Password successfully changed!");
@@ -44,6 +113,10 @@ const ResetPass = (props) =>{
                         }
                 }
         };
+
+        useEffect(()=>{
+                checkPassword()
+        },[password]);
 
         const [validated, setValidated] = useState(false);
 
@@ -72,12 +145,14 @@ const ResetPass = (props) =>{
                                 <p> Enter your new password</p>
                                 {alertTag}
                                         <Form noValidate validated={validated} onSubmit={handleSubmit}>
+                                                {PassReq}
                                                 <Form.Group className="mb-1" controlId="formNewPass" onChange={(e)=>{setPassword(e.target.value)}}>
                                                         <Form.Control required type="password" placeholder="New Password" />
                                                         <Form.Control.Feedback type="invalid">
                                                         Please enter a password.
                                                         </Form.Control.Feedback>
                                                 </Form.Group>
+                                                {PassStr}
                                                 <Form.Group className="mb-1" controlId="formRePass" onChange={(e)=>{setRepassword(e.target.value)}}>
                                                         <Form.Control required type="password" placeholder="Re-type Password" />
                                                         <Form.Control.Feedback type="invalid">

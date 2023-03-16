@@ -285,13 +285,14 @@ app.post("/changePass", (req,res)=>{
     const email = req.body.email;
     const pass = req.body.newPass;
     const strongPass = req.body.strongPass
+    const use2FA = req.body.use2FA
     bcrypt.hash(pass, saltRounds, (err, hash)=>{
         if (err){
             console.log(err)
         }
         db.query(
-            "UPDATE users SET password = ?, strongPass = ? WHERE email = ?",
-           [hash, strongPass, email],
+            "UPDATE users SET password = ?, strongPass = ?, use2FA = ? WHERE email = ?",
+           [hash, strongPass, use2FA, email],
            (err, result) => {
                if(err){
                    res.send({error: err});
