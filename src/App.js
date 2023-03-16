@@ -2,6 +2,7 @@ import './index.css';
 import './App.css';
 import Login from './Login';
 import Register from './Register';
+import AppFooter from './AppFooter';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {Routes, Route, useLocation} from 'react-router-dom';
 import ForgotPass from './ForgotPass';
@@ -58,17 +59,17 @@ function App() {
   if(loggedIn){
     return( 
       <Routes>
-         <Route path="/" element={<div><ProfileNav /><Profile first={fname} last={lname} username={username}/></div>}/>
+         <Route path="/" element={<><div><ProfileNav /><Profile first={fname} last={lname} username={username}/></div><AppFooter/></>}/>
       </Routes>
      );
   }else{
     return( 
       <Routes>
-         <Route path="/" element={<div className='App-content'><Login /></div>}/>
-         <Route path="/register" element={<div className='App-content'><Register /></div>} />
-         <Route path="/forgotpassword" element={<div className='App-content'><ForgotPass /></div>} />
-         <Route path="/resetpassword" element={<div className='App-content'><ResetPass /></div>} />
-         <Route path="/otp" element={<div className='App-content'><OTPPage/></div>} />
+         <Route path="/" element={<><div className='App-content'><Login /></div><AppFooter/></>}/>
+         <Route path="/register" element={<><div className='App-content'><Register /></div><AppFooter/></>} />
+         <Route path="/forgotpassword" element={<><div className='App-content'><ForgotPass /></div><AppFooter/></>} />
+         <Route path="/resetpassword" element={<><div className='App-content'><ResetPass /></div><AppFooter/></>} />
+         <Route path="/otp" element={<><div className='App-content'><OTPPage/></div><AppFooter/></>} />
       </Routes>
      );
   }}

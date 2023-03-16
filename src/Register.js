@@ -1,6 +1,7 @@
 import './Buttons.css';
 import React, { useState } from "react";
 import Button from 'react-bootstrap/Button';
+import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import { Navigate, Link } from 'react-router-dom';
 import Axios from 'axios';
@@ -16,11 +17,14 @@ const Register = () =>{
         const [usernameReg, setUsernameReg] = useState('')
         const [passwordReg, setPasswordReg] = useState('')
         const [isRegistered, setIsRegistered] = useState(false)
-        const [isPassStrong, setPassStrong] = useState(false)
+        const [mustConfirm, setConfirm] = useState(false)
+        const [isPassStrong, setStrong] = useState(false)
+        const [Continue, setCont] = useState(false);
         const [PassReq, setPassReq] = useState(<></>)
         const [PassStr, setPassStr] = useState(<></>)
         let isValid = false;
-        const [validated, setValidated] = useState(false);       
+        const [validated, setValidated] = useState(false);  
+        const [showModal, setShow] = useState(false);     
 
         Axios.defaults.withCredentials = true;
 
@@ -56,7 +60,8 @@ const Register = () =>{
                     !sym || 
                     !len) && 
                     passwordReg.length > 0){
-
+                        setConfirm(true)
+                        setStrong(false)
                         setPassReq(<Alert key="info" variant="info">
                         <p>Strong passwords have the following requirements:</p>
                         <ul>
@@ -73,11 +78,11 @@ const Register = () =>{
                         }else{
                                 setPassStr(<p>Password Strength: <b>Weak</b></p>)
                         }
-                        console.log(countReq(caps, low, num, sym, len));
                 }else{
                     setPassReq(<></>);
+                    setStrong(true);
                     passwordReg.length > 0? setPassStr(<p>Password Strength: <b>Strong</b></p>):setPassStr(<></>)
-                    setPassStrong(true);
+                    setConfirm(false);
                 }
                 
         }
@@ -85,24 +90,31 @@ const Register = () =>{
         useEffect(()=>{
                 checkPassword()
         },[passwordReg]);
+
         const register = () =>{
-                Axios.post('http://localhost:5000/register', {
-                firstname: firstnameReg,
-                lastname: lastnameReg,
-                email: emailReg,
-                username: usernameReg,
-                password: passwordReg,
-                }).then((response) =>{
-                        if(response.data.message){
-                                alert(response.data.message)
-                        }else{
-                                alert("Successfully Registered!")
-                                setIsRegistered(true);
-                        }
-                                
-                }).catch(e => {
-                        console.log(e);
-                });
+                if (mustConfirm) {
+                        handleModalOpen();
+                }
+                else{
+                        Axios.post('http://localhost:5000/register', {
+                        firstname: firstnameReg,
+                        lastname: lastnameReg,
+                        email: emailReg,
+                        username: usernameReg,
+                        password: passwordReg,
+                        strongPass: isPassStrong,
+                        }).then((response) =>{
+                                if(response.data.message){
+                                        alert(response.data.message)
+                                }else{
+                                        alert("Successfully Registered!")
+                                        setIsRegistered(true);
+                                }
+                                        
+                        }).catch(e => {
+                                console.log(e);
+                        });
+                }
         };
 
         
@@ -123,13 +135,45 @@ const Register = () =>{
                 }      
         };
 
-        
+        const handleModalOpen = () => {
+                setShow(true);
+        }
+
+        const handleModalClose = () => {
+                setShow(false);
+        }
+
+        useEffect(()=>{
+                if(Continue){
+                     register();   
+                }
+        },[Continue])
 
         if(isRegistered){
         return <Navigate to={"/"} state={{ justRegistered:"true" }} />
         }          
         return (
         <div className='d-flex flex-column w-100 h-100 main-background'>
+                <Modal
+                show={showModal}
+                onHide={handleModalClose}
+                backdrop="static"
+                keyboard={false}
+                >
+                <Modal.Header closeButton>
+                <Modal.Title>Confirm Registration</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                <p>Are you sure you want to continue despite your password strength?</p>
+                <p>(Accounts with a weak/medium password cannot turn off 2FA)</p>
+                </Modal.Body>
+                <Modal.Footer>
+                <Button variant="secondary" onClick={handleModalClose}>
+                No
+                </Button>
+                <Button variant="primary" onClick={()=>{setConfirm(false); setCont(true);}}>Yes</Button>
+                </Modal.Footer>
+        </Modal>
                 <div className='m-3 p-1'>
                 <img src="2falogo.png" height={85} width={130} alt="logo"/>
                 </div>
@@ -180,12 +224,6 @@ const Register = () =>{
                         </div>
                 </div>
                 </div>
-                <footer className="d-flex justify-content-center align-items-end flex-row" style={{color:"grey", fontSize:".7rem"}}> 
-                <div className="d-flex justify-content-center">
-                        This project was created to fulfill a requirement for CSIT335.
-                </div> 
-                <img className='m-1' src="2falogoALT.png" height={35} width={50} alt="grey logo"/>
-        </footer>   
         </div>       
         )
 }

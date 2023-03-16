@@ -59,7 +59,7 @@ db.connect((err) =>{
       } 
       console.log("Database created");
       db.query("USE 2fa_app");
-      db.query("CREATE TABLE IF NOT EXISTS `users` (`UserID` int(11) NOT NULL AUTO_INCREMENT,`firstname` varchar(50) NOT NULL,`lastname` varchar(50) NOT NULL,`email` varchar(50) NOT NULL,`username` varchar(20) NOT NULL,`password` varchar(100) NOT NULL,`use2FA` tinyint(1) NOT NULL DEFAULT 0, PRIMARY KEY (`UserID`), UNIQUE KEY `email` (`email`), UNIQUE KEY `username` (`username`)) ENGINE=InnoDB AUTO_INCREMENT=37 DEFAULT CHARSET=utf8mb4", function (err, result) {
+      db.query("CREATE TABLE IF NOT EXISTS `users` (`UserID` int(11) NOT NULL AUTO_INCREMENT,`firstname` varchar(50) NOT NULL,`lastname` varchar(50) NOT NULL,`email` varchar(50) NOT NULL,`username` varchar(20) NOT NULL,`password` varchar(100) NOT NULL,`use2FA` tinyint(1) NOT NULL DEFAULT 1,`strongPass` tinyint(1) NOT NULL DEFAULT 0 , PRIMARY KEY (`UserID`), UNIQUE KEY `email` (`email`), UNIQUE KEY `username` (`username`)) ENGINE=InnoDB AUTO_INCREMENT=37 DEFAULT CHARSET=utf8mb4", function (err, result) {
         if (err){
           throw err;
         } 
@@ -87,14 +87,15 @@ app.post("/register", async (req,res) =>{
         const email = req.body.email
         const username = req.body.username
         const password = req.body.password
+        const strongPass = req.body.strongPass
 
         bcrypt.hash(password, saltRounds, (err, hash)=>{
             if (err){
                 console.log(err)
             }
             db.query(
-                "INSERT INTO users (firstname, lastname, email, username, password) VALUES (?,?,?,?,?)",
-                [firstname, lastname, email, username, hash],
+                "INSERT INTO users (firstname, lastname, email, username, password, strongPass) VALUES (?,?,?,?,?,?)",
+                [firstname, lastname, email, username, hash, strongPass],
                 (err, result) =>{
                     if(err != null){
                         console.log(err);
@@ -283,13 +284,14 @@ app.post("/resetPassOtp", (req,res)=>{
 app.post("/changePass", (req,res)=>{
     const email = req.body.email;
     const pass = req.body.newPass;
+    const strongPass = req.body.strongPass
     bcrypt.hash(pass, saltRounds, (err, hash)=>{
         if (err){
             console.log(err)
         }
         db.query(
-            "UPDATE users SET password = ? WHERE email = ?",
-           [hash,email],
+            "UPDATE users SET password = ?, strongPass = ? WHERE email = ?",
+           [hash, strongPass, email],
            (err, result) => {
                if(err){
                    res.send({error: err});
