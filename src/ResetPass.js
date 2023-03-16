@@ -30,7 +30,7 @@ const ResetPass = (props) =>{
                         set2FA(true)
                 }
         },[isPassStrong])
-        
+
         const countReq = (caps, low, num, sym, len) => {
                 let count = 0
                 if(caps){
@@ -90,7 +90,6 @@ const ResetPass = (props) =>{
         const updatePassword = () =>{
                 if(password !== "" && repassword !== ""){
                         if(password.length < 20 && repassword.length < 20){
-                                console.log("DEF2fa is " + Def2FA)
                                 if(password === repassword){
                                         Axios.post('http://localhost:5000/changePass', {
                                         email: location.state.email,
