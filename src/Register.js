@@ -3,10 +3,12 @@ import React, { useState } from "react";
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
+import { InputGroup } from 'react-bootstrap';
 import { Navigate, Link } from 'react-router-dom';
 import Axios from 'axios';
 import { Alert } from 'react-bootstrap';
 import { useEffect } from 'react';
+import { AiFillEyeInvisible, AiFillEye} from 'react-icons/ai'
 
 
 const Register = () =>{
@@ -24,7 +26,8 @@ const Register = () =>{
         const [PassStr, setPassStr] = useState(<></>)
         let isValid = false;
         const [validated, setValidated] = useState(false);  
-        const [showModal, setShow] = useState(false);     
+        const [showModal, setShow] = useState(false); 
+        const [showPass, setShowPass] = useState(false);    
 
         Axios.defaults.withCredentials = true;
 
@@ -91,6 +94,7 @@ const Register = () =>{
                 checkPassword()
         },[passwordReg]);
 
+        
         const register = () =>{
                 if (mustConfirm) {
                         handleModalOpen();
@@ -207,12 +211,13 @@ const Register = () =>{
                                                 </Form.Control.Feedback>
                                         </Form.Group>
                                         {PassReq}
-                                        <Form.Group className="mb-1" controlId="formPassword" onChange={(e)=>{setPasswordReg(e.target.value); checkPassword(); setValidated(false)}}>
-                                                <Form.Control required type="password" placeholder="Password" maxLength={20} />
+                                        <InputGroup  className="mb-1" controlId="formPassword" onChange={(e)=>{setPasswordReg(e.target.value); checkPassword(); setValidated(false)}}>
+                                                <Form.Control required type={showPass?"text":"password"} placeholder="Password" maxLength={20} />
                                                 <Form.Control.Feedback type="invalid">
                                                 Please enter a password.
                                                 </Form.Control.Feedback>
-                                        </Form.Group>
+                                                <Button id="button-addon2" variant="outline-primary" onClick={()=>{setShowPass(!showPass)}}>{showPass?<AiFillEyeInvisible/>:<AiFillEye/>}</Button>
+                                        </InputGroup>
                                         {PassStr}
                                         <div className="d-flex justify-content-between">
                                                         <Link to="/">Back to Login Page</Link>

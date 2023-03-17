@@ -293,7 +293,7 @@ app.post("/changePass", (req,res)=>{
         db.query(
             "UPDATE users SET password = ?, strongPass = ?, use2FA = ? WHERE email = ?",
            [hash, strongPass, use2FA, email],
-           (err, result) => {
+           (err, result) => { 
                if(err){
                    res.send({error: err});
                }else{

@@ -3,9 +3,11 @@ import React, { useState } from "react";
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Alert from 'react-bootstrap/Alert';
+import { InputGroup } from 'react-bootstrap';
 import Spinner from 'react-bootstrap/Spinner';
 import { useNavigate, Link } from 'react-router-dom';
 import Axios from 'axios';
+import { AiFillEyeInvisible, AiFillEye} from 'react-icons/ai'
 
 const Login = () =>{
     const [usernameLog, setUsernameLog] = useState('')
@@ -15,6 +17,7 @@ const Login = () =>{
     const [loginError, setLoginError] = useState('')
     const [validated, setValidated] = useState(false)
     const [isLoading, setLoading] = useState(false)
+    const [showPass, setShowPass] = useState(false)
     const nav = useNavigate();
 
     Axios.defaults.withCredentials = true;
@@ -95,12 +98,13 @@ const Login = () =>{
                                                     </Form.Control.Feedback>
                                             </Form.Group>
 
-                                            <Form.Group className="mb-3" controlId="formPassword" onChange={(e)=>{setPasswordLog(e.target.value); clearAlerts()}}>
-                                                    <Form.Control required type="password" placeholder="Password" maxLength={20}/>
+                                            <InputGroup className="mb-3" controlId="formPassword" onChange={(e)=>{setPasswordLog(e.target.value); clearAlerts()}}>
+                                                    <Form.Control required type={showPass?"text":"password"} placeholder="Password" maxLength={20}/>
                                                     <Form.Control.Feedback type="invalid">
                                                         Please enter your password.
                                                     </Form.Control.Feedback>
-                                            </Form.Group>
+                                                    <Button id="button-addon2" variant="outline-primary" onClick={()=>{setShowPass(!showPass)}}>{showPass?<AiFillEyeInvisible/>:<AiFillEye/>}</Button>
+                                            </InputGroup>
                                                 <div className="d-flex justify-content-between">
                                                     <div>
                                                     <Form.Text className="text-muted">

@@ -2,8 +2,10 @@ import React, { useState, useEffect } from "react";
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Alert from 'react-bootstrap/Alert';
+import { InputGroup } from 'react-bootstrap';
 import { useLocation, useNavigate } from 'react-router-dom';
 import Axios from 'axios';
+import { AiFillEyeInvisible, AiFillEye} from 'react-icons/ai'
 
 
 const ResetPass = (props) =>{
@@ -16,6 +18,8 @@ const ResetPass = (props) =>{
         const [PassStr, setPassStr] = useState(<></>)
         const [isPassStrong, setStrong] = useState(false)
         const [Def2FA, set2FA] = useState(false);
+        const [showPass, setShowPass] = useState(false);
+        const [showRePass, setShowRePass] = useState(false);
         let alertTag ='';
         
         //if no state is passed that means the user did not redirect from otp page and is not verified yet
@@ -145,19 +149,21 @@ const ResetPass = (props) =>{
                                 {alertTag}
                                         <Form noValidate validated={validated} onSubmit={handleSubmit}>
                                                 {PassReq}
-                                                <Form.Group className="mb-1" controlId="formNewPass" onChange={(e)=>{setPassword(e.target.value)}}>
-                                                        <Form.Control required type="password" placeholder="New Password" />
+                                                <InputGroup className="mb-1" controlId="formNewPass" onChange={(e)=>{setPassword(e.target.value)}}>
+                                                        <Form.Control required type={showPass?"text":"password"} placeholder="New Password" />
                                                         <Form.Control.Feedback type="invalid">
                                                         Please enter a password.
                                                         </Form.Control.Feedback>
-                                                </Form.Group>
+                                                        <Button id="button-addon2" variant="outline-primary" onClick={()=>{setShowPass(!showPass)}}>{showPass?<AiFillEyeInvisible/>:<AiFillEye/>}</Button>
+                                                </InputGroup>
                                                 {PassStr}
-                                                <Form.Group className="mb-1" controlId="formRePass" onChange={(e)=>{setRepassword(e.target.value)}}>
-                                                        <Form.Control required type="password" placeholder="Re-type Password" />
+                                                <InputGroup className="mb-1" controlId="formRePass" onChange={(e)=>{setRepassword(e.target.value)}}>
+                                                        <Form.Control required type={showRePass?"text":"password"} placeholder="Re-type Password" />
                                                         <Form.Control.Feedback type="invalid">
                                                         Please re-type your new password
                                                         </Form.Control.Feedback>
-                                                </Form.Group>
+                                                        <Button id="button-addon2" variant="outline-primary" onClick={()=>{setShowRePass(!showRePass)}}>{showRePass?<AiFillEyeInvisible/>:<AiFillEye/>}</Button>
+                                                </InputGroup>
                                                 <div className="d-flex justify-content-end">
                                                                 <Button className="btn-plum" align="right" type="submit" onClick={updatePassword}> 
                                                                 Confirm
