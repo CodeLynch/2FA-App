@@ -12,3 +12,5 @@ Type 'npm run devStart' to run the backend of this app. Open another terminal an
 Type 'npm start' to run the frontend of the app.
 
 The app should open in your browser in a few minutes and will be ready for testing!
+
+Project was made for academic purposes :)
